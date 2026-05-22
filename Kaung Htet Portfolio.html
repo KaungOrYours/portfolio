@@ -1,0 +1,4078 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kaung Htet — AI Researcher &amp; MSc Data Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #0A0A0A;
+  --bg-2: #111110;
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dark: #8B6914;
+  --gold-faint: rgba(201, 168, 76, 0.18);
+  --gold-line: rgba(201, 168, 76, 0.28);
+  --text: #F0E8D8;
+  --muted: #8A7A5A;
+  --muted-2: #5b4f38;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 19px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+@media (min-width: 900px) {
+  body { cursor: none; }
+  body a, body button, body input, body textarea { cursor: none; }
+}
+
+::selection { background: var(--gold); color: #0A0A0A; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: var(--gold); }
+
+/* Custom cursor */
+#cursor-dot, #cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.12s ease-out, width 0.18s ease, height 0.18s ease, opacity 0.2s;
+  opacity: 0;
+}
+#cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--gold-light);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+#cursor-ring {
+  width: 34px; height: 34px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+body.cursor-ready #cursor-dot,
+body.cursor-ready #cursor-ring { opacity: 1; }
+body.cursor-hover #cursor-ring {
+  width: 56px; height: 56px;
+  border-color: var(--gold-light);
+}
+
+/* Particle canvas */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+#root { position: relative; z-index: 1; }
+
+/* Typography helpers */
+.serif { font-family: "Playfair Display", Georgia, serif; }
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 500;
+}
+.mono-sm {
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============== SCROLL PROGRESS ============== */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  z-index: 200;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+  transition: width 0.05s linear;
+  pointer-events: none;
+}
+
+/* ============== NOISE OVERLAY ============== */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.022;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxODAnIGhlaWdodD0nMTgwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC44NScgbnVtT2N0YXZlcz0nMicgc3RpdGNoVGlsZXM9J3N0aXRjaCcvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0nMCAwIDAgMCAwLjc4ICAwIDAgMCAwIDAuNjYgIDAgMCAwIDAgMC4zMCAgMCAwIDAgMC45IDAnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWx0ZXI9J3VybCgjbiknLz48L3N2Zz4=");
+}
+
+/* ============== SECTION DECO NUMBER ============== */
+.section-num {
+  position: absolute;
+  top: 60px;
+  right: -10px;
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-size: clamp(120px, 18vw, 240px);
+  line-height: 1;
+  color: rgba(201,168,76,0.028);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  letter-spacing: -0.03em;
+}
+.section .wrap { position: relative; z-index: 1; }
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1);
+  transition-delay: var(--delay, 0s);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Layout */
+.wrap {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 36px;
+}
+
+section { position: relative; }
+
+/* ============== NAV ============== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 22px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease, padding 0.35s ease;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--gold-line);
+  padding: 14px 36px;
+}
+.nav-logo {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.nav-links {
+  display: flex;
+  gap: 34px;
+}
+.nav-links a {
+  font-family: "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--text);
+  opacity: 0.78;
+  position: relative;
+  padding: 4px 0;
+  transition: color 0.25s, opacity 0.25s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: right 0.35s ease;
+}
+.nav-links a:hover { color: var(--gold); opacity: 1; }
+.nav-links a:hover::after { right: 0; }
+@media (max-width: 820px) {
+  .nav-links { display: none; }
+}
+
+/* ============== HERO ============== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 140px 0 100px;
+  position: relative;
+}
+.hero-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero-layout { grid-template-columns: minmax(0, 6fr) minmax(0, 4fr); gap: 80px; }
+}
+.hero-text { min-width: 0; }
+.hero-photo {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  justify-self: end;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.9s ease 0.4s, transform 0.9s cubic-bezier(.2,.6,.2,1) 0.4s;
+}
+.hero-photo.in { opacity: 1; transform: none; }
+@media (max-width: 899px) {
+  .hero-photo { justify-self: center; max-width: 320px; }
+}
+.photo-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--gold);
+  background: var(--bg-2);
+  clip-path: polygon(0 0, 92% 0, 100% 8%, 100% 100%, 8% 100%, 0 92%);
+  overflow: hidden;
+  transition: transform 0.5s ease;
+}
+.photo-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.02) saturate(0.85);
+}
+.photo-frame .tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(201,168,76,0.10), rgba(10,10,10,0.18) 60%, rgba(10,10,10,0.55));
+  mix-blend-mode: multiply;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.photo-frame .grid-vign {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,0) 60%, rgba(10,10,10,0.55) 100%),
+    repeating-linear-gradient(0deg, rgba(201,168,76,0.04) 0 1px, transparent 1px 36px),
+    repeating-linear-gradient(90deg, rgba(201,168,76,0.04) 0 1px, transparent 1px 36px);
+  pointer-events: none;
+}
+.photo-frame .initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 96px;
+  color: var(--gold);
+  letter-spacing: -0.03em;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--bg-2);
+}
+.photo-frame.empty .initials { opacity: 1; }
+.photo-frame.empty img { display: none; }
+.photo-frame.empty .tint { display: none; }
+
+/* L-brackets */
+.bracket {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  transition: width 0.35s ease, height 0.35s ease;
+}
+.bracket::before, .bracket::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+}
+.bracket.tr { top: -1px; right: -1px; }
+.bracket.tr::before { top: 0; right: 0; width: 100%; height: 2px; }
+.bracket.tr::after { top: 0; right: 0; width: 2px; height: 100%; }
+.bracket.bl { bottom: -1px; left: -1px; }
+.bracket.bl::before { bottom: 0; left: 0; width: 100%; height: 2px; }
+.bracket.bl::after { bottom: 0; left: 0; width: 2px; height: 100%; }
+
+.hero-photo:hover .photo-frame { transform: scale(1.02); }
+.hero-photo:hover .photo-frame .tint { opacity: 0; }
+.hero-photo:hover .bracket { width: 40px; height: 40px; }
+
+.photo-tag {
+  position: absolute;
+  bottom: -28px;
+  right: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.hero-eyebrow .line {
+  width: 56px; height: 1px;
+  background: var(--gold);
+}
+.hero-name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(64px, 11vw, 156px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 30px;
+}
+.hero-name .line-1 { color: var(--text); display: block; }
+.hero-name .line-2 {
+  color: var(--gold);
+  display: block;
+  font-style: italic;
+  font-weight: 800;
+}
+
+.hero-tagline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(20px, 2.2vw, 30px);
+  color: var(--text);
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 28px;
+  min-height: 1.4em;
+}
+.cursor-blink {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--gold);
+  margin-left: 4px;
+  vertical-align: -0.12em;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: rgba(201,168,76,0.06);
+  margin-bottom: 44px;
+}
+.hero-badge .dot {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(201,168,76,0.7);
+  animation: pulse 1.8s infinite;
+}
+.hero-badge .text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.55); }
+  70% { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+}
+
+.cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  font-family: "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+}
+.btn-fill { background: var(--gold); color: #0A0A0A; }
+.btn-fill:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--gold); }
+.btn-outline:hover { background: rgba(201,168,76,0.08); color: var(--gold-light); border-color: var(--gold-light); transform: translateY(-2px); }
+.btn .arrow { display: inline-block; transition: transform 0.3s; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* Scroll indicator */
+.scroll-ind {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.scroll-ind .label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.scroll-ind .bar {
+  position: relative;
+  width: 1px;
+  height: 64px;
+  background: rgba(201,168,76,0.18);
+  overflow: hidden;
+}
+.scroll-ind .bar::after {
+  content: '';
+  position: absolute;
+  top: -20px; left: 0;
+  width: 1px; height: 20px;
+  background: var(--gold);
+  animation: scrollDown 2.2s cubic-bezier(.6,0,.4,1) infinite;
+}
+@keyframes scrollDown {
+  0% { transform: translateY(0); }
+  70% { transform: translateY(64px); }
+  100% { transform: translateY(64px); opacity: 0; }
+}
+
+/* ============== SECTION HEADER ============== */
+.section { padding: 130px 0; }
+.section-head {
+  margin-bottom: 70px;
+}
+.section-head .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.section-head .eyebrow .line { width: 36px; height: 1px; background: var(--gold); }
+.section-head h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.section-head h2 em {
+  color: var(--gold);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ============== IEEE SPOTLIGHT ============== */
+.spotlight {
+  position: relative;
+  padding: 64px 56px 56px;
+  border: 1px solid var(--gold);
+  background: linear-gradient(180deg, rgba(201,168,76,0.04), rgba(201,168,76,0.01));
+  overflow: hidden;
+}
+.spotlight .corner {
+  position: absolute;
+  top: 0; right: 0;
+  width: 140px; height: 140px;
+  background: var(--gold);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 18px 18px 0 0;
+}
+.spotlight .corner span {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #0A0A0A;
+  font-weight: 600;
+  text-align: right;
+  line-height: 1.4;
+}
+.spotlight .quote-deco {
+  position: absolute;
+  top: -40px;
+  left: 20px;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 380px;
+  color: var(--gold);
+  opacity: 0.04;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.spotlight-label {
+  font-family: "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 11px;
+  color: var(--gold);
+  margin-bottom: 28px;
+  position: relative;
+}
+.spotlight-title {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.18;
+  max-width: 1000px;
+  color: var(--text);
+  margin-bottom: 36px;
+  position: relative;
+}
+.spotlight-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+.chip {
+  font-family: "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  padding: 8px 14px;
+  border: 1px solid var(--gold-line);
+  color: var(--text);
+  background: rgba(201,168,76,0.04);
+}
+.spotlight-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 30px;
+  border-top: 1px solid var(--gold-line);
+}
+.spotlight-foot .doi {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.spotlight-foot .doi:hover { color: var(--gold-light); }
+
+/* ============== ABOUT ============== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .about-grid { grid-template-columns: 1fr; gap: 60px; }
+}
+.about-prose p {
+  font-size: 20px;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+.about-prose .pull {
+  font-style: italic;
+  color: var(--gold);
+  font-size: 24px;
+  line-height: 1.45;
+  padding-left: 22px;
+  border-left: 2px solid var(--gold);
+  margin: 32px 0;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--gold-line);
+  border: 1px solid var(--gold-line);
+}
+.stat {
+  background: var(--bg);
+  padding: 36px 24px;
+}
+.stat .num {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 54px;
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.stat .lbl {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ============== TIMELINE ============== */
+.timeline {
+  position: relative;
+  padding-left: 36px;
+  border-left: 1px solid var(--gold-line);
+}
+.timeline-item {
+  position: relative;
+  padding: 22px 0 48px 24px;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition-delay: var(--delay, 0s);
+}
+.timeline-item.in { opacity: 1; transform: none; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -42px;
+  top: 30px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--gold);
+}
+.timeline-item.active::before {
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(201,168,76,0.15);
+}
+.timeline-date {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.timeline-role {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.timeline-org {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.timeline-desc {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 680px;
+}
+
+/* ============== PROJECTS ============== */
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+@media (max-width: 860px) { .proj-grid { grid-template-columns: 1fr; } }
+
+.proj {
+  position: relative;
+  padding: 36px 32px 32px;
+  background: var(--bg-2);
+  border: 1px solid rgba(201,168,76,0.18);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(.2,.6,.2,1), border-color 0.4s, background 0.4s;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+}
+.proj::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  transition: left 0.7s ease;
+}
+.proj:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  background: #131210;
+}
+.proj:hover::before { left: 100%; }
+.proj-num {
+  position: absolute;
+  top: 14px;
+  right: 22px;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 80px;
+  color: var(--gold);
+  opacity: 0.08;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.proj-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.proj-name {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+.proj-desc {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.55;
+  margin-bottom: 22px;
+  flex: 1;
+}
+.proj-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.stack-pill {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border: 1px solid rgba(201,168,76,0.25);
+  color: var(--text);
+  opacity: 0.85;
+}
+.proj-result {
+  border-top: 1px solid var(--gold-line);
+  padding-top: 16px;
+  color: var(--gold-light);
+  font-style: italic;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* ============== SKILLS ============== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--gold-line);
+  border: 1px solid var(--gold-line);
+}
+@media (max-width: 950px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .skills-grid { grid-template-columns: 1fr; } }
+.skill-group {
+  background: var(--bg);
+  padding: 32px 26px;
+}
+.skill-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--gold-line);
+  margin-bottom: 18px;
+}
+.skill-list { list-style: none; }
+.skill-list li {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.7;
+  padding-left: 22px;
+  position: relative;
+  opacity: 0.92;
+}
+.skill-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+
+/* ============== CONTACT ============== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 60px; } }
+
+.contact-intro p {
+  font-size: 20px;
+  color: var(--muted);
+  margin-bottom: 36px;
+  max-width: 460px;
+  line-height: 1.6;
+}
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  border: 1px solid transparent;
+  border-bottom-color: var(--gold-line);
+  transition: all 0.3s ease;
+}
+.contact-link:hover {
+  border-color: var(--gold);
+  transform: translateX(6px);
+  background: rgba(201,168,76,0.04);
+}
+.contact-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.contact-text { display: flex; flex-direction: column; }
+.contact-text .top {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.contact-text .val {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 19px;
+  color: var(--text);
+}
+
+.contact-form { display: flex; flex-direction: column; gap: 26px; }
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.field label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.field input,
+.field textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gold-line);
+  color: var(--text);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 19px;
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.field input:focus,
+.field textarea:focus {
+  border-bottom-color: var(--gold);
+}
+.field textarea { resize: vertical; min-height: 110px; }
+.submit-btn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 16px;
+  background: var(--gold);
+  color: #0A0A0A;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.submit-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+/* ============== FOOTER ============== */
+.footer {
+  padding: 80px 0 50px;
+  text-align: center;
+}
+.diamond {
+  width: 12px; height: 12px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  margin: 0 auto 36px;
+}
+.diamond-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.diamond-row .ln { width: 120px; height: 1px; background: var(--gold-line); }
+.diamond-row .di { width: 9px; height: 9px; background: var(--gold); transform: rotate(45deg); }
+
+.footer .top {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+.footer .top em { color: var(--gold); font-style: italic; }
+.footer .sub {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+/* ============== AI LAYER ============== */
+.section-sub {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin-top: 22px;
+  max-width: 720px;
+}
+
+.ai-section-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-2);
+  border: 1px solid var(--gold-line);
+  min-height: 520px;
+  display: flex;
+}
+.ai-section-shell .ai-panel { width: 100%; display: flex; flex-direction: column; }
+
+.ai-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  font-family: "Cormorant Garamond", serif;
+}
+.ai-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gold-line);
+  background: rgba(201,168,76,0.02);
+}
+.ai-close {
+  background: transparent;
+  border: 1px solid var(--gold-line);
+  color: var(--gold);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ai-close:hover { border-color: var(--gold); color: var(--gold-light); }
+
+.ai-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--gold-line);
+}
+.ai-tab {
+  flex: 1;
+  padding: 14px 8px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 500;
+}
+.ai-tab:hover { color: var(--gold-light); }
+.ai-tab.active {
+  background: var(--gold);
+  color: #0A0A0A;
+  font-weight: 600;
+}
+
+.ai-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+.ai-body > * { flex: 1; min-height: 0; }
+
+/* ============== CHAT ============== */
+.chat {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+.chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 22px 8px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.chat-starters {
+  padding: 14px 4px 8px;
+}
+.starter-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chip-btn {
+  text-align: left;
+  background: transparent;
+  border: 1px solid var(--gold-line);
+  color: var(--text);
+  padding: 12px 14px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.chip-btn:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.05);
+  color: var(--gold-light);
+  transform: translateX(3px);
+}
+
+.bubble {
+  max-width: 86%;
+  padding: 12px 16px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  line-height: 1.5;
+  border-radius: 2px;
+}
+.bubble p { margin: 0; }
+.bubble p + p { margin-top: 8px; }
+.bubble.user {
+  align-self: flex-end;
+  background: var(--gold);
+  color: #0A0A0A;
+  font-weight: 500;
+}
+.bubble.assistant {
+  align-self: flex-start;
+  background: var(--bg-2);
+  color: var(--text);
+  border-left: 1px solid var(--gold);
+}
+.chat[data-accent="cool"] .bubble.assistant { border-left-color: #7A9AAC; }
+
+/* typing dots */
+.bubble.typing { display: inline-flex; gap: 6px; padding: 16px 18px; }
+.bubble.typing span {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: inline-block;
+  animation: dot 1.2s infinite ease-in-out;
+}
+.bubble.typing span:nth-child(2) { animation-delay: 0.15s; }
+.bubble.typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+
+.chat-error {
+  align-self: stretch;
+  border-left: 1px solid var(--gold);
+  background: rgba(201,168,76,0.04);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.chat-error a {
+  color: var(--gold);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.chat-error a:hover { color: var(--gold-light); }
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--gold-line);
+  background: rgba(10,10,10,0.4);
+}
+.chat-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gold-line);
+  color: var(--text);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  padding: 8px 0;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.chat-input input:focus { border-bottom-color: var(--gold); }
+.chat-input input::placeholder { color: var(--muted-2); font-style: italic; }
+.chat-input button {
+  background: var(--gold);
+  border: none;
+  color: #0A0A0A;
+  width: 38px; height: 38px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.chat-input button:hover:not(:disabled) { background: var(--gold-light); transform: translateY(-1px); }
+.chat-input button:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ============== RESEARCH HEADER ============== */
+.research-pane {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+.research-head {
+  position: relative;
+  border-bottom: 1px solid var(--gold);
+}
+.research-thumb {
+  width: 100%;
+  max-height: 140px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.research-thumb img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+}
+.research-badge {
+  padding: 12px 20px 14px;
+  background: rgba(10,10,10,0.55);
+}
+
+/* ============== MATCHER ============== */
+.matcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 0;
+}
+@media (max-width: 720px) { .matcher { grid-template-columns: 1fr; } }
+.matcher-left, .matcher-right {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.matcher-left { border-right: 1px solid var(--gold-line); }
+@media (max-width: 720px) { .matcher-left { border-right: none; border-bottom: 1px solid var(--gold-line); } }
+
+.matcher-left textarea {
+  flex: 1;
+  min-height: 220px;
+  background: transparent;
+  border: 1px solid var(--gold-line);
+  color: var(--text);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  line-height: 1.5;
+  padding: 14px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+.matcher-left textarea:focus { border-color: var(--gold); }
+.matcher-left textarea::placeholder { color: var(--muted-2); font-style: italic; }
+.matcher-submit {
+  margin-top: 14px;
+  width: 100%;
+  justify-content: center;
+}
+
+.matcher-right {
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+.matcher-idle {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.idle-diamond {
+  width: 14px; height: 14px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  margin-bottom: 22px;
+  animation: idlePulse 2.4s ease-in-out infinite;
+}
+@keyframes idlePulse {
+  0%, 100% { opacity: 0.35; transform: rotate(45deg) scale(1); }
+  50% { opacity: 1; transform: rotate(45deg) scale(1.2); }
+}
+.idle-text {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 24px;
+  color: var(--muted);
+}
+
+.matcher-loading {
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+}
+.load-bar {
+  height: 2px;
+  background: var(--gold-line);
+  overflow: hidden;
+  position: relative;
+}
+.load-fill {
+  position: absolute; top: 0; left: -40%;
+  width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: loadSweep 1.4s linear infinite;
+}
+@keyframes loadSweep {
+  0% { left: -40%; }
+  100% { left: 100%; }
+}
+.load-phase {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--gold);
+}
+
+.matcher-result {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.score-meter {
+  position: relative;
+  align-self: center;
+  width: 160px; height: 160px;
+}
+.score-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.score-center .num {
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.verdict {
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.result-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  border-top: 1px solid var(--gold-line);
+  border-bottom: 1px solid var(--gold-line);
+  padding: 18px 0;
+}
+.result-cols .mono { display: block; margin-bottom: 12px; }
+.result-cols ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.result-cols .strengths li {
+  position: relative;
+  padding-left: 18px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  color: var(--text);
+  line-height: 1.45;
+}
+.result-cols .strengths li::before {
+  content: '◆';
+  position: absolute; left: 0; top: 1px;
+  color: var(--gold);
+  font-size: 11px;
+}
+.result-cols .gaps li {
+  position: relative;
+  padding-left: 18px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.result-cols .gaps li::before {
+  content: '—';
+  position: absolute; left: 0; top: 0;
+  color: var(--muted-2);
+}
+
+.narrative-wrap { padding: 4px 0; }
+.narrative {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ============== FLOATING BUBBLE ============== */
+.ai-fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gold);
+  color: #0A0A0A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 500;
+  box-shadow: 0 4px 24px rgba(201,168,76,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.ai-fab:hover {
+  transform: scale(1.08);
+  background: var(--gold-light);
+  box-shadow: 0 6px 36px rgba(201,168,76,0.55);
+}
+.ai-fab svg { position: relative; z-index: 2; }
+.fab-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  pointer-events: none;
+  animation: fabPulse 2.5s ease-out infinite;
+}
+@keyframes fabPulse {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.ai-fab.is-open .fab-pulse { display: none; }
+
+.ai-fab-panel {
+  position: fixed;
+  bottom: 108px;
+  right: 32px;
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  height: 600px;
+  max-height: calc(100vh - 140px);
+  background: var(--bg);
+  border: 1px solid var(--gold-line);
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.1);
+  z-index: 499;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.ai-fab-panel.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.ai-fab-panel .ai-panel { width: 100%; flex: 1; min-height: 0; }
+@media (max-width: 480px) {
+  .ai-fab-panel { width: calc(100vw - 32px); right: 16px; bottom: 90px; height: calc(100vh - 130px); }
+  .ai-fab { right: 16px; bottom: 16px; }
+}
+
+/* ============== ACHIEVEMENTS ============== */
+.achiev-grid {
+  column-count: 3;
+  column-gap: 20px;
+}
+@media (max-width: 1050px) { .achiev-grid { column-count: 2; } }
+@media (max-width: 640px)  { .achiev-grid { column-count: 1; } }
+.achiev {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  background: var(--bg-2);
+  border: 1px solid var(--gold-faint);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(.2,.6,.2,1), border-color 0.4s, background 0.4s;
+  display: block;
+}
+.achiev:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  background: #131210;
+}
+.achiev .media {
+  position: relative;
+  width: 100%;
+  border-top: 1px solid var(--gold);
+  overflow: hidden;
+  background: var(--bg);
+  aspect-ratio: 4 / 3;
+}
+.achiev.tall .media { aspect-ratio: 3 / 4; }
+.achiev.wide .media { aspect-ratio: 16 / 10; }
+.achiev .media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.02) saturate(0.88);
+  transition: transform 0.8s ease;
+}
+.achiev:hover .media img { transform: scale(1.04); }
+.achiev .media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.7));
+  pointer-events: none;
+}
+.achiev .ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background:
+    repeating-linear-gradient(135deg, rgba(201,168,76,0.05) 0 1px, transparent 1px 14px),
+    var(--bg-2);
+  color: var(--muted);
+}
+.achiev .ph .di {
+  width: 14px; height: 14px;
+  transform: rotate(45deg);
+  background: var(--gold);
+  opacity: 0.6;
+}
+.achiev .ph .lb {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  padding: 0 20px;
+}
+.achiev .body { padding: 28px 24px 26px; }
+.achiev-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.achiev-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.achiev-desc {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ============== ABOUT PROFILE PIC ============== */
+.about-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.about-portrait {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 6px rgba(201,168,76,0.08);
+  margin-bottom: 32px;
+  overflow: hidden;
+  background: var(--bg-2);
+  position: relative;
+  flex-shrink: 0;
+}
+.about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.about-portrait .initials {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 56px;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  opacity: 0;
+}
+.about-portrait.empty .initials { opacity: 1; }
+.about-portrait.empty img { display: none; }
+
+/* ============== SPOTLIGHT DATA BAR ============== */
+.spotlight-data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 36px;
+  padding: 22px 0 6px;
+  border-top: 1px solid var(--gold-line);
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.spotlight-data .item .n {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: 8px;
+  letter-spacing: -0.015em;
+}
+.spotlight-data .item .l {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.spotlight:hover .quote-deco {
+  transform: rotate(3deg) scale(1.05);
+  transition: transform 0.7s ease;
+}
+.spotlight .quote-deco { transition: transform 0.7s ease; transform-origin: 30% 40%; }
+
+/* ============== KA-NOVA HERO CARD ============== */
+.proj.has-embed { grid-column: 1 / -1; }
+.proj.hero-card {
+  grid-column: 1 / -1;
+  padding: 44px 44px 0;
+  min-height: auto;
+}
+.proj.hero-card .proj-num {
+  font-size: 160px;
+  top: 18px;
+  right: 38px;
+  opacity: 0.06;
+}
+.hero-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding-bottom: 32px;
+}
+@media (min-width: 760px) {
+  .hero-card-grid {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 56px;
+  }
+}
+.hero-card-left .proj-name {
+  font-size: 38px;
+  margin-bottom: 18px;
+}
+.hero-card-left .proj-desc {
+  font-size: 19px;
+  margin-bottom: 24px;
+}
+.hero-card-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--gold-line);
+  border: 1px solid var(--gold-line);
+  align-self: start;
+}
+.hero-card-right .cell {
+  background: var(--bg-2);
+  padding: 22px 20px;
+}
+.hero-card-right .cell .n {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.hero-card-right .cell .l {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.proj.hero-card .ka-banner {
+  margin: 0 -44px;
+  padding: 16px 44px;
+  background: rgba(201,168,76,0.07);
+  border-top: 1px solid var(--gold-line);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+/* ============== KA-NOVA EMBED ============== */
+.ka-embed-wrap {
+  margin-top: 28px;
+  border-top: 1px solid var(--gold-line);
+  padding-top: 20px;
+}
+.ka-embed-label {
+  margin-bottom: 12px;
+  color: var(--gold);
+}
+.ka-embed-frame {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border: 1px solid var(--gold-line);
+  overflow: hidden;
+  background: var(--bg);
+}
+.ka-embed-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+.ka-embed-overlay {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+.ka-embed-open {
+  font-size: 11px;
+  padding: 10px 20px;
+}
+
+/* ============== VOLUNTEER SECTION ============== */
+.vol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) { .vol-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px) { .vol-grid { grid-template-columns: 1fr; } }
+
+.vol-card {
+  border: 1px solid var(--gold-faint);
+  background: var(--bg-2);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(.2,.6,.2,1), border-color 0.4s;
+}
+.vol-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+}
+.vol-img {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--gold-line);
+  background: var(--bg);
+}
+.vol-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.vol-card:hover .vol-img img { transform: scale(1.04); }
+.vol-ph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.vol-ph .di {
+  width: 10px; height: 10px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.4;
+  display: block;
+}
+.vol-ph .lb {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  padding: 0 16px;
+}
+.vol-body {
+  padding: 24px 22px 26px;
+}
+.vol-period {
+  margin-bottom: 8px;
+}
+.vol-role {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.vol-org {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.vol-desc {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.rl-countdown { padding: 4px 10px; }
+
+/* ============ BOOT SCREEN ============ */
+#boot-screen {
+  position: fixed; inset: 0; z-index: 9000;
+  background: #0A0A0A;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 32px;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+#boot-screen.done { opacity: 0; pointer-events: none; transform: scale(1.03); }
+.boot-logo {
+  font-family: "Playfair Display", serif; font-weight: 900; font-style: italic;
+  font-size: clamp(72px, 14vw, 160px); color: var(--gold);
+  letter-spacing: -0.03em; opacity: 0;
+  animation: bootLogo 0.6s ease 0.3s forwards;
+}
+@keyframes bootLogo { to { opacity: 1; } }
+.boot-lines { display: flex; flex-direction: column; gap: 8px; width: min(520px, 80vw); }
+.boot-line {
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  letter-spacing: 0.18em; color: var(--gold); opacity: 0;
+  animation: bootLine 0.3s ease forwards;
+  white-space: nowrap; overflow: hidden;
+}
+.boot-line.dim { color: var(--muted); }
+.boot-bar-wrap { width: min(520px, 80vw); }
+.boot-bar { height: 2px; background: var(--gold-line); overflow: hidden; position: relative; }
+.boot-bar-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.1s linear; }
+.boot-skip {
+  position: absolute; bottom: 32px; right: 36px;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted);
+  background: transparent; border: 1px solid var(--gold-line);
+  padding: 8px 16px; cursor: pointer; transition: all 0.2s;
+}
+.boot-skip:hover { color: var(--gold); border-color: var(--gold); }
+@keyframes bootLine { to { opacity: 1; } }
+
+/* ============ RECRUITER MODE ============ */
+.recruiter-prompt {
+  position: fixed; top: 72px; left: 50%; transform: translateX(-50%);
+  z-index: 150; display: flex; align-items: center; gap: 14px;
+  background: rgba(10,10,10,0.92); border: 1px solid var(--gold);
+  padding: 12px 24px; backdrop-filter: blur(12px);
+  animation: promptSlide 0.6s cubic-bezier(.2,.6,.2,1) forwards;
+  opacity: 0;
+}
+@keyframes promptSlide { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+.recruiter-prompt .rp-text {
+  font-family: "Cormorant Garamond", serif; font-style: italic;
+  font-size: 18px; color: var(--text);
+}
+.recruiter-prompt .rp-yes {
+  background: var(--gold); color: #0A0A0A;
+  border: none; padding: 8px 18px;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.2s;
+}
+.recruiter-prompt .rp-yes:hover { background: var(--gold-light); }
+.recruiter-prompt .rp-no {
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--gold-line); padding: 8px 14px;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+.recruiter-prompt .rp-no:hover { color: var(--gold); border-color: var(--gold); }
+.recruiter-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: var(--gold); color: #0A0A0A;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 36px;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600;
+  transform: translateY(-100%); transition: transform 0.4s cubic-bezier(.2,.6,.2,1);
+}
+.recruiter-banner.active { transform: translateY(0); }
+.recruiter-banner .rb-left { display: flex; align-items: center; gap: 12px; }
+.recruiter-banner .rb-dot { width: 8px; height: 8px; background: #0A0A0A; border-radius: 50%; animation: pulse 1.6s infinite; }
+.recruiter-banner .rb-close { background: transparent; border: 1px solid rgba(0,0,0,0.25); color: #0A0A0A; width: 28px; height: 28px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.recruiter-banner .rb-close:hover { background: rgba(0,0,0,0.1); }
+body.recruiter-mode .nav { top: 40px; }
+body.recruiter-mode #root { padding-top: 40px; }
+
+/* ============ CHAPTER DIVIDERS ============ */
+.chapter-divider {
+  position: relative; height: 2px; margin: 0; overflow: visible;
+  background: transparent;
+}
+.chapter-divider::before {
+  content: ''; position: absolute; top: 0; left: -100%; right: 100%;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transition: left 1.2s cubic-bezier(.4,0,.2,1), right 1.2s cubic-bezier(.4,0,.2,1);
+}
+.chapter-divider.swept::before { left: 0; right: 0; }
+
+/* ============ POLAROID CARDS (Defining Moments) ============ */
+.memory-reel { position: relative; padding: 20px 0 40px; }
+.memory-scroll {
+  display: flex; gap: 28px; overflow-x: auto; padding: 40px 36px 60px;
+  scroll-snap-type: x mandatory; scrollbar-width: none;
+  -ms-overflow-style: none; cursor: grab;
+}
+.memory-scroll:active { cursor: grabbing; }
+.memory-scroll::-webkit-scrollbar { display: none; }
+.polaroid {
+  flex: 0 0 280px; scroll-snap-align: start;
+  background: #F5F0E8; padding: 18px 18px 48px;
+  position: relative; transform-origin: center bottom;
+  transition: transform 0.4s cubic-bezier(.2,.6,.2,1), box-shadow 0.4s ease;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  opacity: 0; animation: polaroidReveal 0.7s ease forwards;
+}
+.polaroid:nth-child(odd) { transform: rotate(-1.5deg); margin-top: 20px; }
+.polaroid:nth-child(even) { transform: rotate(1.2deg); }
+.polaroid:hover { transform: rotate(0deg) scale(1.04) translateY(-8px) !important; box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px var(--gold); z-index: 10; }
+@keyframes polaroidReveal {
+  from { opacity: 0; transform: rotate(-3deg) translateY(30px); }
+  to { opacity: 1; }
+}
+.polaroid-img {
+  width: 100%; aspect-ratio: 1/1; overflow: hidden;
+  background: var(--bg-2); position: relative; margin-bottom: 14px;
+}
+.polaroid-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: sepia(0.15) contrast(1.05); }
+.polaroid-ph {
+  width: 100%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, #1a1710, #0f0e0b);
+}
+.polaroid-ph .di { width: 12px; height: 12px; background: var(--gold); transform: rotate(45deg); opacity: 0.5; }
+.polaroid-ph .lb { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 0 12px; }
+.polaroid-label { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #8B7A5A; margin-bottom: 6px; }
+.polaroid-title { font-family: "Playfair Display", serif; font-weight: 700; font-size: 16px; color: #1a1710; line-height: 1.25; margin-bottom: 8px; }
+.polaroid-desc { font-family: "Cormorant Garamond", serif; font-size: 14px; color: #5a4f3a; line-height: 1.5; }
+.polaroid-frame { position: absolute; top: 8px; right: 10px; font-family: "JetBrains Mono", monospace; font-size: 9px; color: rgba(139,122,90,0.4); letter-spacing: 0.1em; }
+.memory-fade-r {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 120px;
+  background: linear-gradient(90deg, transparent, var(--bg));
+  pointer-events: none; z-index: 2;
+}
+.memory-fade-l {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 60px;
+  background: linear-gradient(270deg, transparent, var(--bg));
+  pointer-events: none; z-index: 2;
+}
+.memory-hint { text-align: center; margin-top: 8px; }
+
+/* ============ LIVING STATS (terminal lines) ============ */
+.stat-terminal { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.18em; color: var(--gold); opacity: 0; margin-top: 6px; height: 12px; transition: opacity 0.3s; white-space: nowrap; overflow: hidden; }
+.stat:hover .stat-terminal { opacity: 1; }
+.stat-terminal.running { animation: termBlink 0.8s steps(1) infinite; }
+@keyframes termBlink { 50% { opacity: 0.4; } }
+
+/* ============ SECTION TRANSITIONS ============ */
+.section { transition: opacity 0.3s ease; }
+
+/* ============ TIMELINE HEARTBEAT ============ */
+.timeline-item.beat::before { animation: heartbeat 0.4s ease; }
+@keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(2.2); box-shadow: 0 0 0 8px rgba(201,168,76,0.25); } 100% { transform: scale(1); } }
+
+/* ============ SKILLS FLIP ============ */
+.skill-group { transform-style: preserve-3d; opacity: 0; transform: rotateY(25deg) translateX(20px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.6,.2,1); transition-delay: var(--delay,0s); }
+.skill-group.in { opacity: 1; transform: rotateY(0deg) translateX(0); }
+
+/* ============ IMPROVED CHAT BUBBLES ============ */
+.bubble { max-width: 90%; padding: 16px 20px; font-family: "Cormorant Garamond", serif; font-size: 19px; line-height: 1.65; border-radius: 2px; }
+.bubble.assistant { background: rgba(201,168,76,0.06); border-left: 2px solid var(--gold); color: var(--text); }
+.bubble.user { background: var(--gold); color: #0A0A0A; font-weight: 500; }
+.chat-scroll { gap: 18px; padding: 26px 24px 12px; }
+.ai-fab-panel { height: 640px; }
+
+/* ============ SIGNATURE FOOTER ============ */
+.signature-wrap { padding: 60px 0 20px; text-align: center; position: relative; }
+.signature-quote {
+  font-family: "Playfair Display", serif; font-style: italic; font-weight: 400;
+  font-size: clamp(22px, 2.8vw, 36px); color: var(--text); line-height: 1.5;
+  max-width: 780px; margin: 0 auto 28px; opacity: 0; transform: translateY(16px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.signature-quote.in { opacity: 1; transform: none; }
+.signature-quote em { color: var(--gold); font-style: italic; }
+.signature-name {
+  font-family: "Playfair Display", serif; font-style: italic; font-weight: 700;
+  font-size: 28px; color: var(--gold); opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+  display: inline-block;
+}
+.signature-name.in { opacity: 1; }
+.sig-line { width: 0; height: 1px; background: var(--gold); margin: 16px auto 0; transition: width 1.2s ease 0.2s; }
+.sig-line.in { width: 160px; }
+
+/* ============ HAMBURGER NAV ============ */
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: transparent; border: none; }
+.nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--gold); transition: all 0.3s ease; }
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+@media (max-width: 820px) {
+  .nav-hamburger { display: flex; }
+  .nav-links { display: none !important; }
+  .nav-links.mobile-open {
+    display: flex !important; flex-direction: column; gap: 0;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,10,10,0.97); backdrop-filter: blur(20px);
+    align-items: center; justify-content: center; z-index: 99;
+    padding: 40px;
+  }
+  .nav-links.mobile-open a { font-size: 28px; letter-spacing: 0.12em; padding: 16px 0; opacity: 1; }
+}
+
+
+/* ============ HERO ADDITIONS ============ */
+.hero-spine {
+  font-family: "Cormorant Garamond", serif; font-size: clamp(17px,1.8vw,22px);
+  color: var(--muted); font-style: italic; line-height: 1.55;
+  margin-bottom: 24px; max-width: 600px;
+}
+.hero-creds { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.cred-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; background: rgba(201,168,76,0.07);
+  border-left: 2px solid var(--gold);
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-light);
+}
+.avail-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border: 1px solid rgba(72,199,142,0.4);
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: #48C78E;
+  background: rgba(72,199,142,0.06);
+}
+.avail-dot { width: 6px; height: 6px; border-radius: 50%; background: #48C78E; animation: pulse 1.8s infinite; flex-shrink: 0; }
+.hero-currently {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-bottom: 28px; padding: 18px 0;
+  border-top: 1px solid var(--gold-line); border-bottom: 1px solid var(--gold-line);
+}
+.currently-label {
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+}
+.currently-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-family: "Cormorant Garamond", serif; font-size: 18px; color: var(--text); line-height: 1.4;
+}
+.currently-item .arr { color: var(--gold); flex-shrink: 0; }
+.currently-item .avail { color: #48C78E; }
+
+/* ============ CLASSIFIED FILES ============ */
+.classified-scroll {
+  display: flex; gap: 20px; overflow-x: auto; padding: 20px 36px 40px;
+  scroll-snap-type: x mandatory; scrollbar-width: none; cursor: grab;
+}
+.classified-scroll:active { cursor: grabbing; }
+.classified-scroll::-webkit-scrollbar { display: none; }
+.cf-card {
+  flex: 0 0 290px; scroll-snap-align: start;
+  background: var(--bg-2); border: 1px solid var(--gold-line);
+  border-top: 3px solid var(--gold); padding: 28px 22px 24px; position: relative;
+  transition: transform 0.35s cubic-bezier(0.2,0.6,0.2,1), border-color 0.35s, box-shadow 0.35s;
+  opacity: 0; animation: cfReveal 0.6s cubic-bezier(0.2,0.6,0.2,1) forwards;
+}
+.cf-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+@keyframes cfReveal { from { opacity:0; transform: translateX(24px); } to { opacity:1; transform: translateX(0); } }
+.cf-stamp {
+  position: absolute; top: 18px; right: 18px;
+  font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.2em;
+  color: rgba(220,60,60,0.75); border: 1px solid rgba(220,60,60,0.45);
+  padding: 3px 7px; transform: rotate(12deg); font-weight: 600;
+}
+.cf-file-num { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--muted); margin-bottom: 14px; }
+.cf-img { width: 100%; height: 150px; overflow: hidden; background: #0f0e0b; margin-bottom: 16px; border-bottom: 1px solid var(--gold-line); }
+.cf-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.3) contrast(1.05); transition: filter 0.5s; }
+.cf-card:hover .cf-img img { filter: grayscale(0) contrast(1.1); }
+.cf-img-ph { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+.cf-img-ph .di { width:10px; height:10px; background:var(--gold); transform:rotate(45deg); opacity:0.4; }
+.cf-img-ph .lb { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); text-align:center; padding:0 12px; }
+.cf-label { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.cf-title { font-family:"Playfair Display",serif; font-weight:700; font-size:18px; color:var(--text); line-height:1.25; margin-bottom:10px; }
+.cf-desc { font-family:"Cormorant Garamond",serif; font-size:15px; color:var(--muted); line-height:1.55; }
+
+/* ============ RESEARCH ARC ============ */
+.research-arc {
+  display: flex; align-items: flex-start; margin-top: 36px; overflow-x: auto;
+  padding-bottom: 8px; scrollbar-width: none;
+}
+.research-arc::-webkit-scrollbar { display: none; }
+.arc-node { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 140px; }
+.arc-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--gold); position: relative; z-index: 2; transition: background 0.3s, transform 0.3s; }
+.arc-node.done .arc-dot { background: var(--gold); }
+.arc-node.active .arc-dot { background: var(--gold-light); box-shadow: 0 0 0 5px rgba(201,168,76,0.2); transform: scale(1.3); }
+.arc-line { flex: 1; height: 1px; background: var(--gold-line); min-width: 40px; margin-top: 5px; }
+.arc-line.done { background: var(--gold); }
+.arc-year { font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:0.2em; color:var(--gold); }
+.arc-label { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:14px; color:var(--text); text-align:center; line-height:1.35; max-width:120px; }
+
+/* ============ PROJECTS — BUILT WITH ============ */
+.built-with { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--gold-line); display: flex; flex-direction: column; gap: 7px; }
+.bw-tier { display: flex; align-items: baseline; gap: 10px; }
+.bw-label { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); flex-shrink:0; min-width:88px; }
+.bw-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.bw-pill { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.14em; padding:3px 8px; border:1px solid var(--gold-line); color:var(--text); opacity:0.85; }
+.proj-impact { font-family:"Playfair Display",serif; font-style:italic; font-size:32px; color:var(--gold); margin-bottom:2px; line-height:1; }
+.proj-impact-label { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
+
+/* ============ ASK AI BLOCK ============ */
+.ask-ai-block {
+  padding: 36px; background: rgba(201,168,76,0.04); border: 1px solid var(--gold-line);
+  text-align: center; margin-bottom: 36px;
+}
+.ask-ai-block p { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:22px; color:var(--text); margin-bottom:18px; }
+
+</style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="particles"></canvas>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script>
+(function () {
+  const canvas = document.getElementById('particles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let particles = [];
+  const COUNT = 70;
+  const LINK_DIST = 140;
+
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 1.2 + 0.5,
+      });
+    }
+  }
+
+  function step() {
+    ctx.clearRect(0, 0, w, h);
+
+    // lines
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < LINK_DIST) {
+          const op = (1 - d / LINK_DIST) * 0.22;
+          ctx.strokeStyle = `rgba(201, 168, 76, ${op})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // dots
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+      ctx.fillStyle = 'rgba(232, 201, 122, 0.65)';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(step);
+  }
+
+  init();
+  step();
+  window.addEventListener('resize', () => {
+    resize();
+  });
+})();
+
+
+(function () {
+  if (window.matchMedia && window.matchMedia('(max-width: 899px)').matches) return;
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
+
+  let tx = 0, ty = 0, rx = 0, ry = 0;
+  let mx = 0, my = 0;
+  let ready = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    tx = mx; ty = my;
+    if (!ready) {
+      ready = true;
+      document.body.classList.add('cursor-ready');
+    }
+  });
+
+  function loop() {
+    rx += (tx - rx) * 0.18;
+    ry += (ty - ry) * 0.18;
+    dot.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -50%)`;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest('a, button, input, textarea, .proj, .contact-link')) {
+      document.body.classList.add('cursor-hover');
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest('a, button, input, textarea, .proj, .contact-link')) {
+      document.body.classList.remove('cursor-hover');
+    }
+  });
+})();
+
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useMemo } = React;
+
+const ASSET_V = 'v=1';
+const asset = (p) => p + (p.includes('?') ? '&' : '?') + ASSET_V;
+
+/* =====================================================================
+ * Kaung · AI Layer — three-mode assistant
+ * Backed by Google Gemini 1.5 Flash (free tier: 15 req/min).
+ * Rate limit tracked in localStorage — countdown shown when limit hit.
+ * Replace GEMINI_API_KEY below with your key from aistudio.google.com
+ * ===================================================================== */
+
+
+const KNOWLEDGE_BASE = `
+IDENTITY
+Name: Kaung Htet (also known professionally as Kaung Benjamin Htet)
+Email: kaung.htet_kh@icloud.com | Phone: +65 9342 0524
+LinkedIn: linkedin.com/in/kaung-htet-benjamin
+GitHub: github.com/KaungOrYours
+Seeking: ML Engineer, Data Scientist, AI Researcher roles in Singapore
+
+EDUCATION
+- MSc Data Science (In Progress, graduating Dec 2026)
+  University of Hertfordshire / PSB Academy Singapore
+  Top scores: Data Mining & Discovery (84), Fundamentals of Data Science (91)
+- BSc (Hons) Computing Science — First Class
+  Coventry University / PSB Academy Singapore (Mar 2024 – Sep 2025)
+  Final Year Project → IEEE RASSE 2025 first-authored publication
+- Higher National Diploma, Computer Programming — Grade A
+  iNet College, Mandalay, Myanmar (2018–2023)
+  Pearson Overall Merit Award upon graduation
+  Students' Union President for 2 years 9 months (Apr 2021 – Dec 2023)
+
+WORK EXPERIENCE
+- Freelance Data Scientist | Self-Employed | Jan 2024 – Present
+  Singapore / Bangkok / Myanmar
+  * SkillFramework AI (Amdon Consulting): fine-tuning datasets in JSONL,
+    82% precision and 79% recall for generative AI onboarding automation
+  * Restaurant Recommendation AI: NLP engine with menu parsing,
+    food-wine pairing, semantic query matching — Python, Pandas, Flask
+  * Data dashboards and forecasting tools: Power BI, Tableau, SQL
+
+- Data Analyst | Khine Myal Min Co. Ltd. | Apr 2021 – Apr 2023
+  Mandalay, Myanmar
+  * Cleaned and validated large datasets from Odoo ERP
+  * Automated reporting with Excel Power Query and VBA Macros
+  * Reduced manual reporting time by 25%
+  * Maintained audit logs for financial and operational oversight
+
+- Sales & Marketing Manager | AIESEC in Myanmar | 2018–2021
+
+PROJECTS
+1. Ka-Nova — Hybrid Generative Agent-Based Model (Apr 2026 – Present)
+   MSc dissertation project, associated with University of Hertfordshire
+   Architecture: 10,000 Mesa citizen agents (7 archetypes, 6 cognitive layers)
+   + 3 LLM elite agents (Llama 3.2 3B via LangChain: Chancellor, President, General)
+   Closed-loop LLM-simulation feedback. 1,500,000 agent-years computed.
+   300 Monte Carlo runs on RunPod RTX 4090 (~30 hours).
+   18 constitutional articles encoded as 40+ computable parameters.
+   Key results (Year 50):
+     Corruption: 0.189 (Full MFU) vs 0.933 (Military baseline)
+     Coup probability: 0.000 (Full MFU) vs 0.600 (Military baseline)
+     Statistical significance: p<0.001 Mann-Whitney U, Cohen's d
+   Targeting JASSS (Journal of Artificial Societies and Social Simulation) Aug 2026
+   Co-authorship: Dr. Md Saifullah Bin Razali (Program Head UH at PSB Singapore)
+   Tech: Python, Mesa 2.3.0, LangChain, NumPy, LLM, D3.js, Three.js, GitHub Pages
+
+2. Conflict Risk Forecasting Model — IEEE Published (Apr 2025 – Jul 2025)
+   First-authored paper published IEEE Xplore 2025 (IEEE RASSE 2025)
+   Predictive conflict risk model, 195 countries, 1960–2023
+   SHAP interpretability for top conflict risk drivers
+   DOI: 10.1109/RASSE.2025.11315309
+   Tech: Python, SQL, Tableau, Flask, Jupyter, SHAP
+
+3. SME Analytics Platform (Apr 2026 – Present)
+   Zero-touch automated BI platform for Myanmar SMEs
+   GitHub: KaungOrYours/sme-analytics-platform
+   Tech: Python, AutoML, FastAPI, Docker
+
+TECHNICAL SKILLS
+Programming: Python, SQL, HTML/CSS, Flask, JavaScript
+Machine Learning: scikit-learn, TensorFlow, PyTorch, Keras, Random Forest,
+  CatBoost, Logistic Regression, SHAP, Cross-Validation, Feature Engineering
+Agent-Based Modelling: Mesa 2.3.0, Monte Carlo Simulation, NumPy hybrid engine,
+  LangChain, Llama 3.2 3B, Local LLM deployment
+NLP & Generative AI: Embeddings, Text Classification, Semantic Search,
+  JSONL Dataset Creation, Prompt Engineering, RAG (basic), LLM Workflow Automation
+Data Analytics: Power BI, Tableau, Excel (Power Query, VBA), Matplotlib,
+  Seaborn, D3.js, Three.js
+Statistical Analysis: Mann-Whitney U, Cohen's d, SALib Sobol, Kruskal-Wallis,
+  Bootstrap CI
+Cloud & Deployment: AWS S3, Flask API, Docker, Google Colab, RunPod RTX 4090,
+  Git/GitHub
+Tools: Jupyter Notebook, VS Code, Linux CLI, OpenAI APIs, Agile Development
+
+ACHIEVEMENTS
+- First Author — IEEE RASSE 2025: published IEEE Xplore
+  DOI: 10.1109/RASSE.2025.11315309
+- PSB Academy "Student Shine on Global Stage" recognition — 2025
+- Ka-Nova JASSS submission targeting August 2026
+- Google Data Analytics Professional Certificate (Coursera/Google)
+- Teaching volunteer: 2 years 10 months — Pan Pyo Thu Charity Group, Mandalay, Myanmar
+  (Mathematics, History, English for underprivileged children)
+- Volunteer Teacher: 3 months — AIESEC Vietnam
+  (Taught autistic children aged 6–17)
+- Organization Manager: 1 year 1 month — Sparks of Hope SOH, Myanmar
+  (Organised youth volunteer programmes for orphan outreach)
+- Students' Union President: 2 years 9 months — iNet College, Mandalay
+
+LANGUAGES
+English (Professional), Burmese (Native)
+`;
+
+const SYSTEM_ASK = `You are Kaung Htet's personal AI portfolio assistant. You have deep knowledge of Kaung's background, projects, skills, and research. Answer questions from recruiters, collaborators, and researchers concisely and honestly. Speak about Kaung in the third person. If asked something not in the knowledge base, say so clearly rather than fabricating. Never make up credentials, scores, or outcomes. Keep answers under 120 words unless technical depth is clearly needed. Tone: precise, scholarly, confident — matching Kaung's own voice.`;
+
+const SYSTEM_MATCHER = `You are an expert technical recruiter AI. You have been given Kaung Htet's complete CV and project portfolio as context. When given a job description, you must output ONLY valid JSON in this exact structure, no preamble, no markdown fences:
+{
+  "score": <integer 0-100>,
+  "verdict": "<one sentence overall fit assessment>",
+  "strengths": ["<match point 1>", "<match point 2>", "<match point 3>"],
+  "gaps": ["<gap or stretch 1>", "<gap or stretch 2>"],
+  "narrative": "<3-4 sentence paragraph written as a senior recruiter recommending or contextualising Kaung for this specific role. Reference specific projects and skills by name. Be honest — if it is a stretch role say so constructively.>"
+}
+Base your analysis ONLY on the knowledge base provided. Do not invent skills or experience Kaung does not have. Output ONLY the JSON object — no surrounding text, no code fences.`;
+
+const SYSTEM_RESEARCH = `You are a research assistant with expert knowledge of Kaung Htet's Ka-Nova project — a hybrid Generative Agent-Based Model (GABM) simulating post-conflict constitutional governance. Answer technical questions from researchers, academics, and engineers. Be precise and technical. Cite specific numbers, architectural decisions, and statistical results where relevant. If a question goes beyond the documented knowledge base, say 'This is beyond the current documentation — Kaung would be best placed to answer this directly.' Never fabricate research findings. Tone: academic, rigorous, collegial.`;
+
+const STARTERS_ASK = [
+  "What makes Kaung different from other data science candidates?",
+  "Explain the Ka-Nova project in simple terms",
+  "What roles is Kaung best suited for?",
+  "What is his strongest technical skill?",
+  "Has he worked with LLMs before?",
+];
+
+const STARTERS_RESEARCH = [
+  "What is the Ka-Nova architecture?",
+  "How were the LLM elite agents implemented?",
+  "What statistical tests validate the results?",
+  "How does the MFU constitutional framework work?",
+  "What are the limitations of this model?",
+];
+
+/* =====================================================================
+ * Gemini API config
+ * Replace YOUR_GEMINI_API_KEY with your actual key from
+ * https://aistudio.google.com/app/apikey (free tier: 15 req/min)
+ * ===================================================================== */
+const GEMINI_API_KEY = "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";
+const GEMINI_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+
+/* =====================================================================
+ * Rate limit tracker — max 15 requests per 60 seconds (Gemini free tier)
+ * Timestamps stored in localStorage so limit survives page refresh.
+ * ===================================================================== */
+const RL_KEY = "gemini_requests";
+const RL_MAX = 15;
+const RL_WINDOW = 60_000; // 60 seconds in ms
+
+function getRLTimestamps() {
+  try {
+    const raw = localStorage.getItem(RL_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function setRLTimestamps(arr) {
+  try { localStorage.setItem(RL_KEY, JSON.stringify(arr)); } catch {}
+}
+
+// Returns { allowed: bool, waitMs: number }
+function checkRateLimit() {
+  const now = Date.now();
+  const timestamps = getRLTimestamps().filter(t => now - t < RL_WINDOW);
+  setRLTimestamps(timestamps); // prune stale
+  if (timestamps.length < RL_MAX) {
+    return { allowed: true, waitMs: 0 };
+  }
+  // Oldest timestamp + window = when a slot opens
+  const oldest = Math.min(...timestamps);
+  const waitMs = (oldest + RL_WINDOW) - now;
+  return { allowed: false, waitMs: Math.max(0, waitMs) };
+}
+
+function recordRequest() {
+  const timestamps = getRLTimestamps();
+  timestamps.push(Date.now());
+  setRLTimestamps(timestamps);
+}
+
+/* =====================================================================
+ * Countdown hook — counts down from waitMs to 0, updates every second
+ * ===================================================================== */
+function useCountdown(waitMs) {
+  const [remaining, setRemaining] = useState(waitMs);
+  useEffect(() => {
+    if (waitMs <= 0) { setRemaining(0); return; }
+    setRemaining(waitMs);
+    const id = setInterval(() => {
+      setRemaining(prev => {
+        if (prev <= 1000) { clearInterval(id); return 0; }
+        return prev - 1000;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [waitMs]);
+  return remaining;
+}
+
+function formatCountdown(ms) {
+  const totalSec = Math.ceil(ms / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  if (h > 0) return `${h}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+  if (m > 0) return `${m}m ${String(s).padStart(2,'0')}s`;
+  return `${s}s`;
+}
+
+/* =====================================================================
+ * Gemini API caller — builds contents array with system context
+ * ===================================================================== */
+async function callGemini(systemPrompt, history, userMessage) {
+  const { allowed, waitMs } = checkRateLimit();
+  if (!allowed) throw new Error('RATE_LIMIT:' + waitMs);
+  const messages = [
+    { role: 'system', content: systemPrompt + '\n\n--- KNOWLEDGE BASE ---\n' + KNOWLEDGE_BASE.trim() + '\n--- END ---' },
+    ...(history||[]).map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content })),
+    { role: 'user', content: userMessage }
+  ];
+  const body = { model: 'llama-3.1-8b-instant', messages: messages, max_tokens: 1000, temperature: 0.7 };
+  recordRequest();
+  const res = await fetch(GEMINI_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GEMINI_API_KEY },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) { const e = await res.json().catch(function(){return {};}); throw new Error((e && e.error && e.error.message) || 'HTTP ' + res.status); }
+  const data = await res.json();
+  const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+  if (!text) throw new Error('Empty response from Groq');
+  return text.trim();
+}
+
+
+/* NOTE: Gemini allows browser-side fetch with an API key in the URL.
+ * No CORS proxy needed. Just replace YOUR_GEMINI_API_KEY above.
+ * Get a free key at: https://aistudio.google.com/app/apikey
+ * Do NOT use window.claude.complete — that only works inside Claude.ai artifacts. */
+
+/* =====================================================================
+ * MODE A / C — Chat
+ * ===================================================================== */
+function ChatPane({ mode, history, setHistory, starters, accent }) {
+  const [input, setInput] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const [rateLimitWait, setRateLimitWait] = useState(0);
+  const scrollRef = useRef(null);
+  const countdown = useCountdown(rateLimitWait);
+
+  // Re-check rate limit every second when countdown is active
+  useEffect(() => {
+    if (countdown > 0) return;
+    if (rateLimitWait > 0) setRateLimitWait(0); // countdown done, re-enable
+  }, [countdown]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [history, busy]);
+
+  async function send(text) {
+    const msg = (text || input).trim();
+    if (!msg || busy || countdown > 0) return;
+    setError(null);
+    const userMsg = { role: 'user', content: msg };
+    const next = [...history, userMsg];
+    setHistory(next);
+    setInput('');
+    setBusy(true);
+    try {
+      const systemPrompt = mode === 'research' ? SYSTEM_RESEARCH : SYSTEM_ASK;
+      const reply = await callGemini(systemPrompt, history, msg);
+      setHistory([...next, { role: 'assistant', content: reply }]);
+    } catch (e) {
+      const msg = e.message || String(e);
+      if (msg.startsWith('RATE_LIMIT:')) {
+        const waitMs = parseInt(msg.split(':')[1], 10) || 60000;
+        setRateLimitWait(waitMs);
+        // Remove the user message we added optimistically
+        setHistory(history);
+      } else {
+        setError(msg);
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function retry() {
+    setError(null);
+    if (history.length === 0) return;
+    const lastUser = [...history].reverse().find((m) => m.role === 'user');
+    if (!lastUser) return;
+    const trimmed = history.slice(0, history.findIndex((m) => m === lastUser));
+    setHistory(trimmed);
+    setTimeout(() => send(lastUser.content), 0);
+  }
+
+  const isRateLimited = countdown > 0;
+
+  return (
+    <div className="chat" data-accent={accent}>
+      <div className="chat-scroll" ref={scrollRef}>
+        {history.length === 0 && (
+          <div className="chat-starters">
+            <div className="mono-sm" style={{marginBottom: 14}}>Try one —</div>
+            <div className="starter-chips">
+              {starters.map((s) => (
+                <button key={s} className="chip-btn" onClick={() => send(s)} disabled={isRateLimited}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {history.map((m, i) => (
+          <div key={i} className={`bubble ${m.role}`}>
+            {m.content.split(/\n+/).map((para, j) => <p key={j}>{para}</p>)}
+          </div>
+        ))}
+        {busy && (
+          <div className="bubble assistant typing">
+            <span></span><span></span><span></span>
+          </div>
+        )}
+        {error && (
+          <div className="chat-error">
+            <div className="mono-sm" style={{color: 'var(--gold)'}}>API Error — {error}</div>
+            <a onClick={(e) => { e.preventDefault(); retry(); }} href="#">Retry ↻</a>
+          </div>
+        )}
+      </div>
+      <form
+        className="chat-input"
+        onSubmit={(e) => { e.preventDefault(); send(); }}
+      >
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={
+            isRateLimited
+              ? "Rate limit reached — please wait…"
+              : mode === 'research'
+              ? "Ask about Ka-Nova architecture, statistics, methodology…"
+              : "Ask about projects, skills, fit…"
+          }
+          disabled={busy || isRateLimited}
+        />
+        {isRateLimited ? (
+          <div className="rl-countdown">
+            <span className="mono" style={{fontSize: 11, color: 'var(--gold)', whiteSpace: 'nowrap'}}>
+              Available in {formatCountdown(countdown)}
+            </span>
+          </div>
+        ) : (
+          <button type="submit" disabled={busy || !input.trim()} aria-label="Send">→</button>
+        )}
+      </form>
+    </div>
+  );
+}
+
+/* =====================================================================
+ * MODE B — JD Matcher
+ * ===================================================================== */
+function ScoreMeter({ score }) {
+  const ref = useRef(null);
+  const r = 64;
+  const C = 2 * Math.PI * r;
+  const target = Math.max(0, Math.min(100, score));
+  const color = target >= 75 ? 'var(--gold)' : target >= 50 ? '#8B7A3A' : 'var(--muted)';
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const start = performance.now();
+    const dur = 1400;
+    const step = (t) => {
+      const p = Math.min(1, (t - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const offset = C - (C * (target * eased)) / 100;
+      el.style.strokeDashoffset = String(offset);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    el.style.strokeDashoffset = String(C);
+    requestAnimationFrame(step);
+  }, [target, C]);
+
+  return (
+    <div className="score-meter">
+      <svg viewBox="0 0 160 160" width="160" height="160">
+        <circle cx="80" cy="80" r={r} fill="none" stroke="var(--gold-line)" strokeWidth="2" />
+        <circle
+          ref={ref}
+          cx="80" cy="80" r={r}
+          fill="none"
+          stroke={color}
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray={C}
+          strokeDashoffset={C}
+          transform="rotate(-90 80 80)"
+        />
+      </svg>
+      <div className="score-center">
+        <div className="num serif">{target}</div>
+        <div className="mono-sm">/ 100</div>
+      </div>
+    </div>
+  );
+}
+
+function MatcherPane() {
+  const [jd, setJd] = useState('');
+  const [result, setResult] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [phase, setPhase] = useState(0);
+  const [error, setError] = useState(null);
+  const [rateLimitWait, setRateLimitWait] = useState(0);
+  const countdown = useCountdown(rateLimitWait);
+
+  useEffect(() => {
+    if (countdown === 0 && rateLimitWait > 0) setRateLimitWait(0);
+  }, [countdown]);
+
+  useEffect(() => {
+    if (!busy) return;
+    setPhase(0);
+    let i = 0;
+    const id = setInterval(() => { i = (i + 1) % 3; setPhase(i); }, 1100);
+    return () => clearInterval(id);
+  }, [busy]);
+
+  const phaseLabels = [
+    "Reading job description…",
+    "Mapping against CV…",
+    "Generating assessment…",
+  ];
+
+  async function analyse() {
+    if (!jd.trim() || busy || countdown > 0) return;
+    setError(null);
+    setResult(null);
+    setBusy(true);
+    try {
+      const text = await callGemini(SYSTEM_MATCHER, [], "Job Description to evaluate:\n\n" + jd.trim());
+      let parsed = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch (_) {
+        const m = text.match(/\{[\s\S]*\}/);
+        if (m) parsed = JSON.parse(m[0]);
+      }
+      if (!parsed) throw new Error("Could not parse model output");
+      setResult(parsed);
+    } catch (e) {
+      const msg = e.message || String(e);
+      if (msg.startsWith('RATE_LIMIT:')) {
+        const waitMs = parseInt(msg.split(':')[1], 10) || 60000;
+        setRateLimitWait(waitMs);
+      } else {
+        setError(msg);
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const isRateLimited = countdown > 0;
+
+  return (
+    <div className="matcher">
+      <div className="matcher-left">
+        <label className="mono-sm" style={{display: 'block', marginBottom: 10}}>Job Description</label>
+        <textarea
+          value={jd}
+          onChange={(e) => setJd(e.target.value)}
+          placeholder="Paste a job description here…&#10;&#10;We'll analyse fit against Kaung's CV instantly."
+          disabled={busy}
+        />
+        <button className="btn btn-fill matcher-submit" onClick={analyse} disabled={busy || !jd.trim() || isRateLimited}>
+          {busy ? 'Analysing…' : isRateLimited ? `Available in ${formatCountdown(countdown)}` : 'Analyse Fit →'}
+        </button>
+      </div>
+      <div className="matcher-right">
+        {!busy && !result && !error && (
+          <div className="matcher-idle">
+            <div className="idle-diamond"></div>
+            <div className="idle-text">Awaiting your job description…</div>
+            <div className="mono-sm" style={{color: 'var(--muted-2)', marginTop: 12}}>
+              Instant CV ↔ Role alignment scoring
+            </div>
+          </div>
+        )}
+        {busy && (
+          <div className="matcher-loading">
+            <div className="load-bar"><div className="load-fill"></div></div>
+            <div className="load-phase mono-sm">{phaseLabels[phase]}</div>
+          </div>
+        )}
+        {error && (
+          <div className="chat-error" style={{margin: 'auto'}}>
+            <div className="mono-sm" style={{color: 'var(--gold)'}}>API Error — {error}</div>
+            <a onClick={(e) => { e.preventDefault(); analyse(); }} href="#">Retry ↻</a>
+          </div>
+        )}
+        {result && (
+          <div className="matcher-result">
+            <ScoreMeter score={result.score} />
+            <div className="verdict">{result.verdict}</div>
+            <div className="result-cols">
+              <div className="col">
+                <div className="mono">Alignment</div>
+                <ul className="strengths">
+                  {(result.strengths || []).map((s, i) => <li key={i}>{s}</li>)}
+                </ul>
+              </div>
+              <div className="col">
+                <div className="mono">Gaps / Growth</div>
+                <ul className="gaps">
+                  {(result.gaps || []).map((s, i) => <li key={i}>{s}</li>)}
+                </ul>
+              </div>
+            </div>
+            <div className="narrative-wrap">
+              <div className="mono-sm" style={{marginBottom: 12}}>Recruiter Assessment</div>
+              <p className="narrative">{result.narrative}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* =====================================================================
+ * MODE C — chat with Ka-Nova thumbnail header
+ * ===================================================================== */
+function ResearchPane({ history, setHistory }) {
+  return (
+    <div className="research-pane">
+      <div className="research-head">
+        <div className="research-thumb">
+          <img src={'./assets/ka-nova-sim.jpg?v=1'} alt="Ka-Nova simulation" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+        </div>
+        <div className="research-badge">
+          <div className="mono">Ka-Nova · Generative ABM</div>
+          <div style={{fontSize: 13, color: 'var(--muted)', marginTop: 4}}>
+            Technical Q&amp;A on architecture, statistics, and methodology.
+          </div>
+        </div>
+      </div>
+      <ChatPane
+        mode="research"
+        history={history}
+        setHistory={setHistory}
+        starters={STARTERS_RESEARCH}
+        accent="cool"
+      />
+    </div>
+  );
+}
+
+/* =====================================================================
+ * MODE SWITCHER + AI PANEL
+ * ===================================================================== */
+const MODES = [
+  { id: 'ask',      label: '✦ Ask Kaung' },
+  { id: 'match',    label: '◈ Match My JD' },
+  { id: 'research', label: '⬡ Research Q&A' },
+];
+
+function AIPanel({ instanceId, onClose, showHeader = true }) {
+  const [mode, setMode] = useState('ask');
+  const [askHistory, setAskHistory] = useState([]);
+  const [researchHistory, setResearchHistory] = useState([]);
+
+  return (
+    <div className="ai-panel" data-instance={instanceId}>
+      {showHeader && (
+        <div className="ai-head">
+          <span className="mono" style={{color: 'var(--gold)'}}>Kaung · AI Layer</span>
+          {onClose && (
+            <button className="ai-close" onClick={onClose} aria-label="Close">×</button>
+          )}
+        </div>
+      )}
+      <div className="ai-tabs">
+        {MODES.map((m) => (
+          <button
+            key={m.id}
+            className={`ai-tab ${mode === m.id ? 'active' : ''}`}
+            onClick={() => setMode(m.id)}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
+      <div className="ai-body">
+        {mode === 'ask' && (
+          <ChatPane
+            mode="ask"
+            history={askHistory}
+            setHistory={setAskHistory}
+            starters={STARTERS_ASK}
+            accent="gold"
+          />
+        )}
+        {mode === 'match' && <MatcherPane />}
+        {mode === 'research' && (
+          <ResearchPane history={researchHistory} setHistory={setResearchHistory} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* =====================================================================
+ * FLOATING BUBBLE
+ * ===================================================================== */
+function FloatingBubble() {
+  const [open, setOpen] = useState(false);
+  return (
+    <React.Fragment>
+      <button
+        className={`ai-fab ${open ? 'is-open' : ''}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Open AI assistant"
+      >
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <path
+            d="M12 2 L13.5 9.5 L21 11 L13.5 12.5 L12 20 L10.5 12.5 L3 11 L10.5 9.5 Z"
+            fill="#0A0A0A"
+          />
+        </svg>
+        <span className="fab-pulse"></span>
+      </button>
+      <div className={`ai-fab-panel ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+        <AIPanel instanceId="bubble" onClose={() => setOpen(false)} />
+      </div>
+    </React.Fragment>
+  );
+}
+
+/* =====================================================================
+ * DEDICATED SECTION
+ * ===================================================================== */
+function AILayerSection() {
+  return (
+    <section className="section" id="ai-layer">
+      <span className="section-num">07</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 07 — Intelligence Layer</span></div>
+          <h2>An AI that <em>knows me</em>.</h2>
+          <p className="section-sub">
+            Ask about my work, test my fit for your role, or probe the research.
+            This assistant runs on Gemini — built to show, not just tell.
+          </p>
+        </div>
+        <div className="ai-section-shell reveal">
+          <AIPanel instanceId="section" showHeader={false} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+
+
+const TAGLINES = [
+  "AI Researcher & MSc Data Scientist",
+  "IEEE Published First Author",
+  "Agent-Based Modelling Specialist",
+  "LLM Systems Engineer",
+  "Computational Governance Researcher",
+];
+
+/* ============ HOOKS ============ */
+function useTypewriter(words, typeSpeed = 65, deleteSpeed = 35, pause = 1700) {
+  const [text, setText] = useState("");
+  const [wi, setWi] = useState(0);
+  const [phase, setPhase] = useState("typing");
+  useEffect(() => {
+    const word = words[wi % words.length];
+    let t;
+    if (phase === "typing") {
+      if (text.length < word.length) {
+        t = setTimeout(() => setText(word.slice(0, text.length + 1)), typeSpeed);
+      } else {
+        t = setTimeout(() => setPhase("deleting"), pause);
+      }
+    } else {
+      if (text.length > 0) {
+        t = setTimeout(() => setText(word.slice(0, text.length - 1)), deleteSpeed);
+      } else {
+        setWi((i) => (i + 1) % words.length);
+        setPhase("typing");
+      }
+    }
+    return () => clearTimeout(t);
+  }, [text, phase, wi, words, typeSpeed, deleteSpeed, pause]);
+  return text;
+}
+
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal, .timeline-item, .hero-photo');
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            en.target.classList.add('in');
+            io.unobserve(en.target);
+          }
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+function useScrollNav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return scrolled;
+}
+
+function ScrollProgress() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - window.innerHeight;
+      const pct = max <= 0 ? 0 : (window.scrollY / max) * 100;
+      if (ref.current) ref.current.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+  return <div className="scroll-progress" ref={ref}></div>;
+}
+
+/* ============ IMG WITH FALLBACK ============ */
+function SafeImg({ src, alt, fallback, ...rest }) {
+  const [failed, setFailed] = useState(false);
+  if (failed || !src) return fallback || null;
+  return <img src={src} alt={alt || ''} onError={() => setFailed(true)} {...rest} />;
+}
+
+/* ============== NAV ============== */
+function Nav({ recruiterMode }) {
+  const scrolled = useScrollNav();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const links = ['About','Research','Projects','Skills','Volunteer','Contact'];
+  return (
+    <nav className={`nav ${scrolled ? 'scrolled' : ''}`} style={recruiterMode ? {top:'40px'} : {}}>
+      <a href="#top" className="nav-logo">KH</a>
+      <div className={`nav-links ${mobileOpen ? 'mobile-open' : ''}`}>
+        {links.map(l => (
+          <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMobileOpen(false)}>{l}</a>
+        ))}
+      </div>
+      <button className={`nav-hamburger ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(v => !v)} aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  );
+}
+
+/* ============== HERO ============== */
+function PhotoFrame({ src }) {
+  const [failed, setFailed] = useState(false);
+  const empty = failed || !src;
+  return (
+    <div className={`photo-frame ${empty ? 'empty' : ''}`}>
+      {!empty && <img src={src} alt="Kaung Htet" onError={() => setFailed(true)} />}
+      <div className="tint"></div>
+      <div className="grid-vign"></div>
+      <div className="initials">KH</div>
+      <span className="bracket tr"></span>
+      <span className="bracket bl"></span>
+    </div>
+  );
+}
+
+function Hero() {
+  const tag = useTypewriter(TAGLINES);
+  return (
+    <section className="hero" id="top">
+      <div className="wrap">
+        <div className="hero-layout">
+          <div className="hero-text">
+            <h1 className="hero-name reveal" style={{'--delay': '0.05s'}}>
+              <span className="line-1">Kaung</span>
+              <span className="line-2">Htet.</span>
+            </h1>
+            <p className="hero-tagline reveal" style={{'--delay': '0.12s'}}>
+              {tag}<span className="cursor-blink"></span>
+            </p>
+            <p className="hero-spine reveal" style={{'--delay': '0.2s'}}>
+              I build computational models that turn messy real-world data into defensible insight — from conflict forecasting to governance simulation.
+            </p>
+            <div className="hero-creds reveal" style={{'--delay': '0.22s'}}>
+              <span className="cred-badge">IEEE First Author · 2025</span>
+              <span className="cred-badge">First Class Honours</span>
+              <span className="avail-badge"><span className="avail-dot"></span>Open to Opportunities</span>
+            </div>
+            <div className="hero-currently reveal" style={{'--delay': '0.32s'}}>
+              <div className="currently-label">Currently —</div>
+              <div className="currently-item"><span className="arr">→</span><span>Writing MSc dissertation — Ka-Nova GABM</span></div>
+              <div className="currently-item"><span className="arr">→</span><span className="avail">Open to ML Engineer / Data Scientist roles</span></div>
+              <div className="currently-item"><span className="arr">→</span><span>Targeting JASSS publication, Aug 2026</span></div>
+            </div>
+            <div className="cta-row reveal" style={{'--delay': '0.44s'}}>
+              <a href="#research" className="btn btn-fill">View Research <span className="arrow">→</span></a>
+              <a href="#contact" className="btn btn-outline">Get In Touch</a>
+              <a href="https://github.com/KaungOrYours" target="_blank" rel="noopener" className="btn btn-outline">GitHub ↗</a>
+            </div>
+          </div>
+          <div className="hero-photo">
+            <PhotoFrame src={asset('./assets/profile.jpg')} />
+            <span className="photo-tag">b. 17 Dec 2001</span>
+          </div>
+        </div>
+      </div>
+      <div className="scroll-ind">
+        <span className="label">Scroll</span>
+        <span className="bar"></span>
+      </div>
+    </section>
+  );
+}
+
+/* ============== IEEE SPOTLIGHT ============== */
+function Spotlight() {
+  const chips = [
+    "IEEE RASSE 2025",
+    "National Library Building, Singapore",
+    "195 Countries",
+    "1960 – 2023",
+    "SHAP Interpretability",
+    "PSB Academy Global Stage Award",
+  ];
+  const stats = [
+    ["195", "Countries"],
+    ["63", "Years of Data"],
+    ["12", "ML Features"],
+    ["p<0.001", "Statistical Sig."],
+  ];
+  return (
+    <section className="section" id="research">
+      <span className="section-num">01</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 01 — Research</span></div>
+          <h2>Featured <em>publication</em>.</h2>
+        </div>
+        <article className="spotlight reveal">
+          <div className="corner"><span>IEEE<br/>2025</span></div>
+          <div className="quote-deco">“</div>
+          <div className="spotlight-label">First Author · Peer-Reviewed · Published</div>
+          <h3 className="spotlight-title">
+            From Raw Data to Informed Insight: Conflict Risk Using Macroeconomic and Governance Indicators
+          </h3>
+          <div className="spotlight-chips">
+            {chips.map((c) => <span className="chip" key={c}>{c}</span>)}
+          </div>
+          <div className="spotlight-data">
+            {stats.map(([n, l]) => (
+              <div className="item" key={l}>
+                <div className="n">{n}</div>
+                <div className="l">{l}</div>
+              </div>
+            ))}
+          </div>
+          <div className="spotlight-foot">
+            <span className="mono-sm">Co-authors: Dr. Weng Chun Tan · Dr. Chong Lye Lim · Dr. Matthew</span>
+            <a className="doi" href="https://doi.org/10.1109/RASSE.2025.11315309" target="_blank" rel="noopener">
+              DOI 10.1109/RASSE.2025.11315309 ↗
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+/* ============== ACHIEVEMENTS ============== */
+function AchievMedia({ src, label }) {
+  const [failed, setFailed] = useState(false);
+  if (failed || !src) {
+    return (
+      <div className="media">
+        <div className="ph">
+          <span className="di"></span>
+          <span className="lb">{label}</span>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="media">
+      <img src={src} alt={label} onError={() => setFailed(true)} />
+    </div>
+  );
+}
+
+function PolaroidCard({ item, index }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const fileNums = ['FILE-001','FILE-002','FILE-003','FILE-004','FILE-005','FILE-006'];
+  return (
+    <div className="cf-card" style={{animationDelay: (index * 0.1) + 's'}}>
+      <div className="cf-stamp">DECLASSIFIED</div>
+      <div className="cf-file-num">{fileNums[index % fileNums.length]}</div>
+      <div className="cf-img">
+        {item.img && !imgFailed
+          ? <img src={item.img} alt={item.title} onError={() => setImgFailed(true)} />
+          : <div className="cf-img-ph"><span className="di"></span><span className="lb">{item.label}</span></div>}
+      </div>
+      <div className="cf-label">{item.label}</div>
+      <div className="cf-title">{item.title}</div>
+      <div className="cf-desc">{item.desc}</div>
+    </div>
+  );
+}
+
+function Achievements() {
+  const scrollRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef(0);
+  const scrollStart = useRef(0);
+
+  const items = [
+    { img: asset("./assets/ieee-rasse.jpg"), label: "IEEE RASSE 2025 · Singapore", title: "First-Authored Paper Presented", desc: "Presented at IEEE RASSE 2025, National Library Building, Singapore. Co-authors: Dr. Weng Chun Tan, Dr. Chong Lye Lim, Dr. Matthew." },
+    { img: asset("./assets/psb-recognition.jpg"), label: "PSB Academy · 2025", title: "Student Shine on Global Stage", desc: "Recognised by PSB Academy Singapore for IEEE publication — featured in institutional media for global academic impact." },
+    { img: asset("./assets/researcher-day.jpg"), label: "Coventry · Researcher Day 2025", title: "Research Conference Presentation", desc: "Presented conflict risk forecasting research at Coventry University Researcher Conference 2025. Integrates UCDP, World Bank, and Freedom House data." },
+    { img: asset("./assets/sales-excellence.jpg"), label: "AIESEC in Myanmar · Jan 2020", title: "Sales Excellence Award", desc: "Top performance in sales outreach and international partnership development across the Asia-Pacific AIESEC network." },
+    { img: asset("./assets/first-class.jpg"), label: "Coventry University · Sep 2025", title: "First Class Honours", desc: "First Class BSc (Hons) Computing Science. Final year project became the first-authored IEEE RASSE 2025 publication." },
+    { img: asset("./assets/inet-diploma.jpg"), label: "iNet College · Dec 2023", title: "Pearson Overall Merit Award", desc: "Grade A HND in Computer Programming. Pearson Overall Merit Award. Students' Union President for 2 years 9 months." },
+  ];
+
+  function onMouseDown(e) {
+    setIsDragging(true);
+    dragStart.current = e.pageX;
+    scrollStart.current = scrollRef.current.scrollLeft;
+  }
+  function onMouseMove(e) {
+    if (!isDragging) return;
+    scrollRef.current.scrollLeft = scrollStart.current - (e.pageX - dragStart.current);
+  }
+  function onMouseUp() { setIsDragging(false); }
+
+  return (
+    <section className="section" id="achievements">
+      <span className="section-num">02</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 02 — Milestones</span></div>
+          <h2>Defining <em>moments</em>.</h2>
+        </div>
+      </div>
+      <div className="memory-reel">
+        <div className="memory-fade-l"></div>
+        <div
+          className="classified-scroll"
+          ref={scrollRef}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+        >
+          {items.map((it, i) => <PolaroidCard key={it.title} item={it} index={i} />)}
+        </div>
+        <div className="memory-fade-r"></div>
+      </div>
+      <div className="memory-hint">
+        <span className="mono-sm">← drag to explore →</span>
+      </div>
+    </section>
+  );
+}
+
+/* ============== ABOUT ============== */
+function StatNumber({ value }) {
+  // animate counter for numeric values; pass-through for strings like "1st", "1.5M", "2026"
+  const ref = useRef(null);
+  const numeric = typeof value === 'number';
+  useEffect(() => {
+    if (!numeric || !ref.current) return;
+    const el = ref.current;
+    let started = false;
+    const io = new IntersectionObserver(
+      (ents) => {
+        for (const e of ents) {
+          if (e.isIntersecting && !started) {
+            started = true;
+            const start = performance.now();
+            const dur = 1400;
+            const from = 0;
+            const to = value;
+            const step = (t) => {
+              const p = Math.min(1, (t - start) / dur);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const cur = Math.round(from + (to - from) * eased);
+              el.textContent = cur.toLocaleString();
+              if (p < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+            io.unobserve(el);
+          }
+        }
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [value, numeric]);
+  if (numeric) return <span ref={ref}>0</span>;
+  return <span>{value}</span>;
+}
+
+function About() {
+  const [portraitFailed, setPortraitFailed] = useState(false);
+  const stats = [
+    ["1st", "IEEE Author", "first_author = True"],
+    [91, "Top Module Score", "score = 91/100"],
+    ["1.5M", "Agent-Years Simulated", "agent_years = 1_500_000"],
+    [300, "Monte Carlo Runs", "runs = 300"],
+    [195, "Countries Analysed", "dataset.shape = (195, 63)"],
+    ["2026", "JASSS Target", "target = JASSS_2026"],
+  ];
+  return (
+    <section className="section" id="about">
+      <span className="section-num">03</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 03 — About</span></div>
+          <h2>A practitioner of <em>rigorous</em> data science.</h2>
+        </div>
+        <div className="about-grid">
+          <div className="about-left">
+            <div className={`about-portrait reveal ${portraitFailed ? 'empty' : ''}`}>
+              <img src={asset('./assets/profile.jpg')} alt="Kaung Htet portrait" onError={() => setPortraitFailed(true)} />
+              <div className="initials">KH</div>
+            </div>
+            <div className="about-prose reveal">
+              <p>
+                I am a Singapore-based MSc Data Science researcher with a First Class
+                Honours in Computing Science and a published first-author paper on the
+                IEEE Xplore platform. My work sits at the intersection of agent-based
+                modelling, large language models, and computational governance — building
+                systems that turn raw, messy signals into defensible insight.
+              </p>
+              <p>
+                My current research, <em>Ka-Nova</em>, simulates how digital trust
+                infrastructure reshapes corruption and credit access for SMEs in
+                fragile economies — supervised by Dr. Md Saifullah Bin Razali and
+                targeting publication in JASSS 2026.
+              </p>
+              <p className="pull">
+                “I build models the way historians build arguments — every coefficient
+                must be earned, every assumption documented, every prediction defensible.”
+              </p>
+              <p>
+                Beyond the research, I serve Myanmar SMEs and Southeast Asian
+                clients as a freelance data scientist, translating econometrics
+                and machine learning into operating decisions.
+              </p>
+            </div>
+          </div>
+          <div className="stat-grid reveal" style={{'--delay': '0.15s'}}>
+            {stats.map(([n, l, term]) => (
+              <div className="stat" key={l}>
+                <div className="num"><StatNumber value={n} /></div>
+                <div className="lbl">{l}</div>
+                {term && <div className="stat-terminal running">{term}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============== TIMELINE ============== */
+function Timeline() {
+  const items = [
+    {
+      date: "2026 — Present",
+      role: "MSc Data Science",
+      org: "University of Hertfordshire · PSB Academy Singapore",
+      desc: "Postgraduate research programme focused on advanced machine learning, statistical inference, and computational social science — with the Ka-Nova GABM as the cornerstone thesis project.",
+      active: true,
+    },
+    {
+      date: "Apr 2026 — Present",
+      role: "Ka-Nova Research Project",
+      org: "University of Hertfordshire",
+      desc: "Generative Agent-Based Model of digital-trust infrastructure for SME credit access. Built on Mesa + LangChain + Llama 3.2 with 300 Monte Carlo runs across 1.5M simulated agent-years.",
+      active: true,
+    },
+    {
+      date: "2024 — 2025",
+      role: "BSc (Hons) Computing Science — First Class",
+      org: "Coventry University · PSB Academy",
+      desc: "Graduated with First Class Honours; capstone published as IEEE RASSE 2025 first-author paper. Awarded PSB Academy Global Stage Award.",
+    },
+    {
+      date: "Jan 2024 — Present",
+      role: "Freelance Data Scientist",
+      org: "Freelance · Remote",
+      desc: "Cross-border consulting on analytics, AutoML, and bespoke NLP systems for SMEs and consulting houses across Southeast Asia.",
+    },
+    {
+      date: "Apr 2021 — Apr 2023",
+      role: "Data Analyst",
+      org: "Khine Myal Min Co. Ltd., Mandalay",
+      desc: "Owned reporting and forecasting for a Myanmar distribution business through a period of unprecedented economic volatility.",
+    },
+    {
+      date: "2018 — 2021",
+      role: "AIESEC in Myanmar — Multiple Roles",
+      org: "National Marketing Team Member & More",
+      desc: "National Marketing Team Member (2021). Organizing Director, Japan-Myanmar Friendship Campaign (2020–2021). Local Director of Outgoing Global Volunteer (2020–2021). Logistics Manager, YouthSepak Forum (2019–2021).",
+    },
+    {
+      date: "2018 — 2023",
+      role: "Higher National Diploma — Computer Programming (Grade A)",
+      org: "iNet College, Mandalay · Pearson Overall Merit Award",
+      desc: "Five-year diploma programme in Computer Programming. Graduated with Grade A and received the Pearson Overall Merit Award. Also served as Students' Union President for 2 years 9 months.",
+    },
+    {
+      date: "Mar 2018 — Oct 2018",
+      role: "Volunteer Teacher",
+      org: "Pan Pyo Thu Charity Group · AIESEC Vietnam",
+      desc: "Taught Mathematics, History, and English at Pan Pyo Thu Charity Group, Mandalay (2 years 10 months). Separately, served as a volunteer teacher for autistic children aged 6–17 at AIESEC Vietnam (3 months).",
+    },
+    {
+      date: "Aug 2018 — Aug 2019",
+      role: "Organization Manager",
+      org: "Sparks of Hope SOH, Myanmar",
+      desc: "Organised youth volunteers for orphan outreach programmes, coordinating events and managing cross-functional volunteer teams.",
+    },
+  ];
+  return (
+    <section className="section">
+      <span className="section-num">04</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 04 — Journey</span></div>
+          <h2>A line of <em>deliberate</em> moves.</h2>
+        </div>
+        <div className="timeline">
+          {items.map((it, i) => (
+            <div
+              key={i}
+              className={`timeline-item ${it.active ? 'active' : ''}`}
+              style={{'--delay': `${i * 0.08}s`}}
+            >
+              <div className="timeline-date">{it.date}</div>
+              <div className="timeline-role">{it.role}</div>
+              <div className="timeline-org">{it.org}</div>
+              <div className="timeline-desc">{it.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============== PROJECTS ============== */
+function KaNovaCard() {
+  const cells = [
+    ["0.189", "Corruption (Full MFU)"],
+    ["0.000", "Coup Probability (MFU)"],
+    ["0.933", "Corruption (Military)"],
+    ["0.600", "Coup Probability (Military)"],
+  ];
+  const stack = ["Mesa", "LangChain", "Llama 3.2", "Python", "RunPod"];
+  return (
+    <article className="proj hero-card reveal">
+      <span className="proj-num">01</span>
+      <div className="hero-card-grid">
+        <div className="hero-card-left">
+          <div className="proj-tag">MSc Research · Ongoing</div>
+          <h3 className="proj-name">Ka-Nova GABM</h3>
+          <p className="proj-desc">
+            A Generative Agent-Based Model simulating how digital trust
+            infrastructure reshapes corruption and SME credit access in
+            fragile economies. Mesa orchestrates a heterogeneous population
+            of LangChain-driven Llama 3.2 agents through Monte Carlo policy
+            regimes — Military, Hybrid, and Full MFU futures — calibrated
+            against real Myanmar macroeconomic and governance indicators.
+          </p>
+          <div className="built-with">
+            <div className="bw-tier"><span className="bw-label">Core Model</span><div className="bw-pills"><span className="bw-pill">Mesa 2.3.0</span><span className="bw-pill">LangChain</span><span className="bw-pill">Llama 3.2</span></div></div>
+            <div className="bw-tier"><span className="bw-label">Infrastructure</span><div className="bw-pills"><span className="bw-pill">RunPod RTX 4090</span><span className="bw-pill">Docker</span><span className="bw-pill">Python</span></div></div>
+            <div className="bw-tier"><span className="bw-label">Validation</span><div className="bw-pills"><span className="bw-pill">Mann-Whitney U</span><span className="bw-pill">Cohen d</span><span className="bw-pill">SALib</span></div></div>
+          </div>
+          <div className="proj-result" style={{marginTop: '12px'}}>
+            Supervisor: Dr. Md Saifullah Bin Razali · 300 Monte Carlo runs · 1.5M agent-years · p &lt; 0.001
+          </div>
+        </div>
+        <div className="hero-card-right">
+          {cells.map(([n, l]) => (
+            <div className="cell" key={l}>
+              <div className="n">{n}</div>
+              <div className="l">{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="ka-banner">Targeting JASSS 2026 — Computational Governance Simulation</div>
+      <div className="ka-embed-wrap">
+        <div className="ka-embed-label mono-sm">Live Simulation — Ka-Nova Phase 2</div>
+        <div className="ka-embed-frame">
+          <iframe
+            src="https://kaungoryours.github.io/project-ka-nova/ka-nova-phase2.html"
+            title="Ka-Nova Phase 2 Live Simulation"
+            allowFullScreen
+            loading="lazy"
+          />
+          <div className="ka-embed-overlay">
+            <a
+              href="https://kaungoryours.github.io/project-ka-nova/ka-nova-phase2.html"
+              target="_blank"
+              rel="noopener"
+              className="ka-embed-open btn btn-outline"
+            >
+              Open Full Simulation ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function Projects() {
+  const rest = [
+    {
+      n: "02",
+      tag: "IEEE Published · 2025",
+      name: "Conflict Risk Forecasting",
+      impact: "195",
+      impactLabel: "Countries · 63 Years of Data",
+      desc: "Cross-country macro and governance indicator pipeline forecasting onset of armed conflict across 195 countries from 1960–2023, with SHAP-based interpretability.",
+      tiers: [
+        { label: "Core Model", tools: ["Python", "scikit-learn", "SHAP"] },
+        { label: "Data Sources", tools: ["UCDP", "World Bank", "Freedom House"] },
+        { label: "Delivery", tools: ["Tableau", "Flask", "Jupyter"] },
+      ],
+      result: "First-authored · IEEE Xplore 2025 · DOI 10.1109/RASSE.2025.11315309",
+      embed: "https://public.tableau.com/views/GlobalConflictDashboard19602023_17535437946040/GlobalConflictDashboard?:embed=y&:showVizHome=no",
+    },
+
+    {
+      n: "03",
+      tag: "Live Platform",
+      name: "SME Analytics Platform",
+      desc: "Dockerised AutoML stack for small businesses — sales forecasting, churn analysis, and dashboarding without an in-house data team. Deployed live on Vercel.",
+      tiers: [
+        { label: "Core Model", tools: ["AutoML", "FastAPI", "Python"] },
+        { label: "Infrastructure", tools: ["Docker", "Vercel", "Git"] },
+        { label: "Delivery", tools: ["REST API", "Dashboard"] },
+      ],
+      result: "Live: sme-analytics-platform.vercel.app",
+      embed: "https://sme-analytics-platform.vercel.app",
+    },
+
+  ];
+  return (
+    <section className="section" id="projects">
+      <span className="section-num">05</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 05 — Projects</span></div>
+          <h2>Selected <em>work</em>.</h2>
+        </div>
+        <div className="proj-grid">
+          <KaNovaCard />
+          {rest.map((p, i) => (
+            <article
+              className={`proj reveal ${p.embed ? 'has-embed' : ''}`}
+              key={p.n}
+              style={{'--delay': `${(i % 2) * 0.1}s`}}
+            >
+              <span className="proj-num">{p.n}</span>
+              <div className="proj-tag">{p.tag}</div>
+              <h3 className="proj-name">{p.name}</h3>
+              {p.impact && <div className="proj-impact">{p.impact}</div>}
+              {p.impactLabel && <div className="proj-impact-label">{p.impactLabel}</div>}
+              <p className="proj-desc">{p.desc}</p>
+              {p.tiers ? (
+                <div className="built-with">
+                  {p.tiers.map(t => (
+                    <div className="bw-tier" key={t.label}>
+                      <span className="bw-label">{t.label}</span>
+                      <div className="bw-pills">{t.tools.map(tool => <span className="bw-pill" key={tool}>{tool}</span>)}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="proj-stack">
+                  {(p.stack||[]).map((s) => <span className="stack-pill" key={s}>{s}</span>)}
+                </div>
+              )}
+              <div className="proj-result">{p.result}</div>
+              {p.embed && (
+                <div className="ka-embed-wrap">
+                  <div className="ka-embed-frame" style={{height: '380px', marginTop: '16px'}}>
+                    <iframe src={p.embed} title={p.name} allowFullScreen loading="lazy" style={{width:'100%',height:'100%',border:'none'}} />
+                  </div>
+                  <div className="ka-embed-overlay">
+                    <a href={p.embed.replace('?:embed=y&:showVizHome=no','')} target="_blank" rel="noopener" className="ka-embed-open btn btn-outline">Open Full ↗</a>
+                  </div>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============== SKILLS ============== */
+function Skills() {
+  const groups = [
+    { title: "Languages & Frameworks", items: ["Python", "R", "SQL", "JavaScript", "Flask", "FastAPI"] },
+    { title: "Machine Learning", items: ["scikit-learn", "PyTorch", "XGBoost", "Random Forest", "Ensemble Methods"] },
+    { title: "Agent-Based Modelling", items: ["Mesa", "Monte Carlo", "Policy Regimes", "Calibration", "Sensitivity Analysis"] },
+    { title: "NLP & Generative AI", items: ["LangChain", "Llama 3.2", "Embeddings", "Prompt Engineering", "Fine-tuning (JSONL)"] },
+    { title: "Data & Visualisation", items: ["pandas", "NumPy", "Tableau", "Matplotlib", "Plotly", "Streamlit"] },
+    { title: "Statistical Methods", items: ["Bayesian Inference", "SHAP", "Causal Analysis", "Time Series", "Regression"] },
+    { title: "Cloud & Deployment", items: ["Docker", "AWS", "RunPod", "Git / GitHub", "CI / CD", "Linux"] },
+    { title: "Research Methods", items: ["Literature Synthesis", "Experimental Design", "Peer Review", "Academic Writing"] },
+  ];
+  return (
+    <section className="section" id="skills">
+      <span className="section-num">06</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 06 — Skills</span></div>
+          <h2>An <em>instrument</em> kit.</h2>
+        </div>
+        <div className="skills-grid reveal">
+          {groups.map((g) => (
+            <div className="skill-group" key={g.title}>
+              <div className="skill-title">{g.title}</div>
+              <ul className="skill-list">
+                {g.items.map((it) => <li key={it}>{it}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============== CONTACT ============== */
+function Contact() {
+  const [sent, setSent] = useState(false);
+  const links = [
+    { ic: "@", top: "Email", val: "kaung.htet_kh@icloud.com", href: "mailto:kaung.htet_kh@icloud.com" },
+    { ic: "☏", top: "Phone", val: "+65 9342 0524", href: "tel:+6593420524" },
+    { ic: "in", top: "LinkedIn", val: "linkedin.com/in/kaung-htet-benjamin", href: "https://linkedin.com/in/kaung-htet-benjamin" },
+    { ic: "gh", top: "GitHub", val: "github.com/KaungOrYours", href: "https://github.com/KaungOrYours" },
+    { ic: "↓", top: "Curriculum Vitae", val: "Download CV — Kaung Htet 2026", href: "#" },
+  ];
+  return (
+    <section className="section" id="contact">
+      <span className="section-num">08</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 08 — Contact</span></div>
+          <h2>Open to <em>collaboration</em>.</h2>
+        </div>
+        <div className="ask-ai-block reveal">
+          <p>"Don't want to fill a form? Ask my AI anything about Kaung."</p>
+          <button className="btn btn-fill" onClick={() => { const fab = document.querySelector('.ai-fab'); if(fab) fab.click(); }}>Open AI Chat →</button>
+        </div>
+        <div className="contact-grid">
+          <div className="contact-intro reveal">
+            <p>
+              I am actively seeking ML Engineering, Data Science, and AI Research
+              roles — and I am always glad to discuss agent-based modelling,
+              LLM systems, or computational governance over a quiet coffee
+              in Tanjong Pagar.
+            </p>
+            <div className="contact-links">
+              {links.map((l) => (
+                <a className="contact-link" key={l.top} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+                  <span className="contact-icon">{l.ic}</span>
+                  <span className="contact-text">
+                    <span className="top">{l.top}</span>
+                    <span className="val">{l.val}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+          <form
+            className="contact-form reveal"
+            style={{'--delay': '0.15s'}}
+            onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+          >
+            <div className="field">
+              <label>Name</label>
+              <input type="text" required placeholder="Your name" />
+            </div>
+            <div className="field">
+              <label>Email</label>
+              <input type="email" required placeholder="you@institution.edu" />
+            </div>
+            <div className="field">
+              <label>Message</label>
+              <textarea required placeholder="What would you like to discuss?"></textarea>
+            </div>
+            <button type="submit" className="submit-btn">
+              {sent ? "Message Sent ✓" : "Send Message →"}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============== VOLUNTEER ============== */
+function Volunteer() {
+  const items = [
+    {
+      img: asset("./assets/volunteer-panpyothu.jpg"),
+      org: "Pan Pyo Thu Charity Group",
+      role: "Volunteer Teacher",
+      period: "Mar 2018 — Dec 2020 · 2 yrs 10 mos",
+      desc: "Taught Mathematics, History, and English to underprivileged children in Mandalay, Myanmar. Built foundational academic skills for students with limited access to formal education.",
+    },
+    {
+      img: asset("./assets/volunteer-sparks.jpg"),
+      org: "Sparks of Hope SOH",
+      role: "Organization Manager",
+      period: "Aug 2018 — Aug 2019 · 1 yr 1 mo",
+      desc: "Organised and managed youth volunteer programmes for orphan outreach in Myanmar. Coordinated cross-functional teams and planned educational and community events.",
+    },
+    {
+      img: asset("./assets/volunteer-aiesec.jpg"),
+      org: "AIESEC in Vietnam",
+      role: "Volunteer Teacher",
+      period: "Aug 2018 — Oct 2018 · 3 mos",
+      desc: "Volunteer teacher for autistic children aged 6–17 in Vietnam. Developed patient, adaptive teaching methods for neurodiverse learners as part of AIESEC's global exchange programme.",
+    },
+  ];
+  return (
+    <section className="section" id="volunteer">
+      <span className="section-num">09</span>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <div className="eyebrow"><span className="line"></span><span className="mono">§ 09 — Giving Back</span></div>
+          <h2>Beyond the <em>algorithm</em>.</h2>
+        </div>
+        <div className="vol-grid">
+          {items.map((it, i) => (
+            <article className="vol-card reveal" key={it.org} style={{'--delay': `${i * 0.1}s`}}>
+              <div className="vol-img">
+                <SafeImg
+                  src={it.img}
+                  alt={it.org}
+                  fallback={
+                    <div className="vol-ph">
+                      <span className="di"></span>
+                      <span className="lb">{it.org}</span>
+                    </div>
+                  }
+                />
+              </div>
+              <div className="vol-body">
+                <div className="vol-period mono-sm">{it.period}</div>
+                <div className="vol-role serif">{it.role}</div>
+                <div className="vol-org">{it.org}</div>
+                <p className="vol-desc">{it.desc}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============== FOOTER ============== */
+function Footer() {
+  const quoteRef = useRef(null);
+  const nameRef = useRef(null);
+  const lineRef = useRef(null);
+  useEffect(() => {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.4 });
+    if (quoteRef.current) io.observe(quoteRef.current);
+    if (nameRef.current) io.observe(nameRef.current);
+    if (lineRef.current) io.observe(lineRef.current);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <footer className="footer">
+      <div className="signature-wrap">
+        <p className="signature-quote" ref={quoteRef}>
+          "Every model is wrong.<br/>Some are useful.<br/><em>Build the useful ones.</em>"
+        </p>
+        <div className="sig-line" ref={lineRef}></div>
+        <div className="signature-name" ref={nameRef}>— Kaung Htet</div>
+      </div>
+      <div className="diamond-row">
+        <span className="ln"></span>
+        <span className="di"></span>
+        <span className="ln"></span>
+      </div>
+      <div className="top">© 2026 · <em>Kaung Htet</em> · Singapore</div>
+      <div className="sub">MSc Data Science · IEEE Published · AI Researcher</div>
+    </footer>
+  );
+}
+
+/* ============== BOOT SCREEN ============== */
+const BOOT_LINES = [
+  { text: "INITIALISING PORTFOLIO.SYS v2.0.26 ...", delay: 400, dim: false },
+  { text: "LOADING: kaung_htet_cv.json ............. OK", delay: 700, dim: false },
+  { text: "LOADING: ieee_rasse_2025.pdf ............ OK", delay: 1000, dim: false },
+  { text: "LOADING: ka_nova_gabm_results.pkl ....... OK", delay: 1300, dim: false },
+  { text: "AGENTS: 10,000 citizens + 3 LLM elites .. OK", delay: 1600, dim: true },
+  { text: "MONTE_CARLO_RUNS: 300 ................... OK", delay: 1800, dim: true },
+  { text: "CORRUPTION_INDEX: 0.189 (FULL_MFU) ..... OK", delay: 2000, dim: true },
+  { text: "RENDERING PORTFOLIO ..................... ✓", delay: 2300, dim: false },
+];
+
+function BootScreen({ onDone }) {
+  const [progress, setProgress] = useState(0);
+  const [visibleLines, setVisibleLines] = useState([]);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    const timers = [];
+    BOOT_LINES.forEach((line, i) => {
+      timers.push(setTimeout(() => {
+        setVisibleLines(prev => [...prev, i]);
+        setProgress(Math.round(((i + 1) / BOOT_LINES.length) * 100));
+      }, line.delay));
+    });
+    timers.push(setTimeout(() => { setDone(true); setTimeout(onDone, 850); }, 2700));
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <div id="boot-screen" className={done ? 'done' : ''}>
+      <div className="boot-logo">KH</div>
+      <div className="boot-lines">
+        {BOOT_LINES.map((line, i) => (
+          <div key={i} className={`boot-line ${line.dim ? 'dim' : ''}`}
+            style={{ animationDelay: `${line.delay}ms`, display: visibleLines.includes(i) ? 'block' : 'none' }}>
+            {line.text}
+          </div>
+        ))}
+      </div>
+      <div className="boot-bar-wrap">
+        <div className="boot-bar">
+          <div className="boot-bar-fill" style={{ width: progress + '%' }}></div>
+        </div>
+      </div>
+      <button className="boot-skip" onClick={() => { setDone(true); setTimeout(onDone, 400); }}>
+        Skip →
+      </button>
+    </div>
+  );
+}
+
+/* ============== RECRUITER MODE ============== */
+function RecruiterPrompt({ onYes, onNo }) {
+  return (
+    <div className="recruiter-prompt">
+      <span className="rp-text">Are you a recruiter?</span>
+      <button className="rp-yes" onClick={onYes}>Yes — Show Me</button>
+      <button className="rp-no" onClick={onNo}>No</button>
+    </div>
+  );
+}
+
+function RecruiterBanner({ active, onClose }) {
+  return (
+    <div className={`recruiter-banner ${active ? 'active' : ''}`}>
+      <div className="rb-left">
+        <span className="rb-dot"></span>
+        <span>Recruiter Mode Active — Kaung Htet is available for ML Engineer / Data Scientist roles in Singapore</span>
+      </div>
+      <button className="rb-close" onClick={onClose}>×</button>
+    </div>
+  );
+}
+
+/* ============== CHAPTER DIVIDER ============== */
+function ChapterDivider() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { e.target.classList.add('swept'); io.unobserve(e.target); }
+    }, { threshold: 0.5 });
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  return <div className="chapter-divider" ref={ref}></div>;
+}
+
+/* ============== APP ============== */
+function App() {
+  useReveal();
+  const [booted, setBooted] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [recruiterMode, setRecruiterMode] = useState(false);
+  const [promptDismissed, setPromptDismissed] = useState(false);
+
+  // Show recruiter prompt 3s after boot
+  useEffect(() => {
+    if (!booted) return;
+    const t = setTimeout(() => { if (!promptDismissed) setShowPrompt(true); }, 3000);
+    return () => clearTimeout(t);
+  }, [booted]);
+
+  // Skills flip-in observer
+  useEffect(() => {
+    if (!booted) return;
+    const groups = document.querySelectorAll('.skill-group');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    groups.forEach((g, i) => { g.style.setProperty('--delay', `${i * 0.07}s`); io.observe(g); });
+    return () => io.disconnect();
+  }, [booted]);
+
+  // Timeline heartbeat
+  useEffect(() => {
+    if (!booted) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const items = e.target.querySelectorAll('.timeline-item');
+          items.forEach((item, i) => {
+            setTimeout(() => {
+              item.classList.add('beat');
+              setTimeout(() => item.classList.remove('beat'), 400);
+            }, i * 120);
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    const tl = document.querySelector('.timeline');
+    if (tl) io.observe(tl);
+    return () => io.disconnect();
+  }, [booted]);
+
+  function handleRecruiterYes() {
+    setRecruiterMode(true);
+    setShowPrompt(false);
+    setPromptDismissed(true);
+    document.body.classList.add('recruiter-mode');
+    // Pulse the floating AI bubble
+    const fab = document.querySelector('.ai-fab');
+    if (fab) { fab.style.transform = 'scale(1.3)'; setTimeout(() => { fab.style.transform = ''; }, 400); }
+  }
+
+  function handleRecruiterNo() {
+    setShowPrompt(false);
+    setPromptDismissed(true);
+  }
+
+  function handleRecruiterClose() {
+    setRecruiterMode(false);
+    document.body.classList.remove('recruiter-mode');
+  }
+
+  return (
+    <React.Fragment>
+      {!booted && <BootScreen onDone={() => setBooted(true)} />}
+      <RecruiterBanner active={recruiterMode} onClose={handleRecruiterClose} />
+      {showPrompt && <RecruiterPrompt onYes={handleRecruiterYes} onNo={handleRecruiterNo} />}
+      <ScrollProgress />
+      <div className="noise" aria-hidden="true"></div>
+      <Nav recruiterMode={recruiterMode} />
+      <Hero />
+      <ChapterDivider />
+      <Spotlight />
+      <ChapterDivider />
+      <Achievements />
+      <ChapterDivider />
+      <About />
+      <ChapterDivider />
+      <Timeline />
+      <ChapterDivider />
+      <Projects />
+      <ChapterDivider />
+      <Skills />
+      <ChapterDivider />
+      <Volunteer />
+      <ChapterDivider />
+      <Contact />
+      <Footer />
+      <FloatingBubble />
+    </React.Fragment>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+
+</script>
+</body>
+</html>
