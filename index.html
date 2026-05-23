@@ -164,6 +164,16 @@ a { color: inherit; text-decoration: none; }
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 36px;
+  box-sizing: border-box;
+}
+@media (max-width: 480px) {
+  .wrap { padding: 0 18px; }
+  .section { padding: 80px 0; }
+  .about-prose p { font-size: 18px; }
+  .hero-name { font-size: clamp(48px, 13vw, 80px) !important; word-break: break-word; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .stat { padding: 20px 14px; }
+  .stat-val { font-size: 36px; }
 }
 
 section { position: relative; }
@@ -1775,14 +1785,34 @@ section { position: relative; }
   display: block;
 }
 .ka-embed-overlay {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
+  position: relative;
+  bottom: auto;
+  right: auto;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding: 0;
 }
 .ka-embed-open {
   font-size: 11px;
   padding: 10px 20px;
 }
+.ka-embed-gh {
+  font-size: 11px;
+  padding: 10px 20px;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-line);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+.ka-embed-gh:hover { border-color: var(--gold); color: var(--gold-light); background: rgba(201,168,76,0.06); }
 
 /* ============== VOLUNTEER SECTION ============== */
 .vol-grid {
@@ -2127,6 +2157,10 @@ body.recruiter-mode #root { padding-top: 40px; }
 }
 .classified-scroll:active { cursor: grabbing; }
 .classified-scroll::-webkit-scrollbar { display: none; }
+@media (max-width: 600px) {
+  .classified-scroll { padding: 20px 16px 40px; gap: 14px; justify-content: flex-start; }
+  .cf-card { flex: 0 0 calc(85vw); scroll-snap-align: center; }
+}
 .cf-card {
   flex: 0 0 290px; scroll-snap-align: start;
   background: var(--bg-2); border: 1px solid var(--gold-line);
@@ -2143,15 +2177,23 @@ body.recruiter-mode #root { padding-top: 40px; }
   padding: 3px 7px; transform: rotate(12deg); font-weight: 600;
 }
 .cf-file-num { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.28em; color: var(--muted); margin-bottom: 14px; }
-.cf-img { width: 100%; height: 150px; overflow: hidden; background: #0f0e0b; margin-bottom: 16px; border-bottom: 1px solid var(--gold-line); }
-.cf-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.3) contrast(1.05); transition: filter 0.5s; }
-.cf-card:hover .cf-img img { filter: grayscale(0) contrast(1.1); }
+.cf-img { width: 100%; height: 150px; overflow: hidden; background: #0f0e0b; margin-bottom: 16px; border-bottom: 1px solid var(--gold-line); cursor: zoom-in; position: relative; }
+.cf-img img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.3) contrast(1.05); transition: filter 0.5s, transform 0.5s cubic-bezier(.2,.6,.2,1), height 0.5s cubic-bezier(.2,.6,.2,1); }
+.cf-card:hover .cf-img { height: 220px; }
+.cf-card:hover .cf-img img { filter: grayscale(0) contrast(1.1); transform: scale(1.05); }
+.cf-img-zoom-hint { position: absolute; bottom: 6px; right: 8px; font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--gold); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.cf-card:hover .cf-img-zoom-hint { opacity: 1; }
 .cf-img-ph { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
 .cf-img-ph .di { width:10px; height:10px; background:var(--gold); transform:rotate(45deg); opacity:0.4; }
 .cf-img-ph .lb { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); text-align:center; padding:0 12px; }
 .cf-label { font-family:"JetBrains Mono",monospace; font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
 .cf-title { font-family:"Playfair Display",serif; font-weight:700; font-size:18px; color:var(--text); line-height:1.25; margin-bottom:10px; }
 .cf-desc { font-family:"Cormorant Garamond",serif; font-size:15px; color:var(--muted); line-height:1.55; }
+.cf-lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; display:flex; align-items:center; justify-content:center; padding:24px; cursor:zoom-out; }
+.cf-lightbox img { max-width:90vw; max-height:85vh; object-fit:contain; border:1px solid var(--gold-line); box-shadow:0 0 80px rgba(0,0,0,0.8); }
+.cf-lightbox-caption { position:fixed; bottom:32px; left:50%; transform:translateX(-50%); font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); text-align:center; white-space:nowrap; }
+.cf-lightbox-close { position:fixed; top:24px; right:28px; font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:0.2em; color:var(--muted); cursor:pointer; border:1px solid var(--gold-line); padding:6px 12px; transition:color 0.2s,border-color 0.2s; }
+.cf-lightbox-close:hover { color:var(--gold); border-color:var(--gold); }
 
 /* ============ RESEARCH ARC ============ */
 .research-arc {
@@ -3258,20 +3300,40 @@ function AchievMedia({ src, label }) {
 
 function PolaroidCard({ item, index }) {
   const [imgFailed, setImgFailed] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const fileNums = ['FILE-001','FILE-002','FILE-003','FILE-004','FILE-005','FILE-006'];
+
+  function openLightbox(e) {
+    e.stopPropagation();
+    if (item.img && !imgFailed) setLightboxOpen(true);
+  }
+  function closeLightbox(e) {
+    e.stopPropagation();
+    setLightboxOpen(false);
+  }
+
   return (
-    <div className="cf-card" style={{animationDelay: (index * 0.1) + 's'}}>
-      <div className="cf-stamp">DECLASSIFIED</div>
-      <div className="cf-file-num">{fileNums[index % fileNums.length]}</div>
-      <div className="cf-img">
-        {item.img && !imgFailed
-          ? <img src={item.img} alt={item.title} onError={() => setImgFailed(true)} />
-          : <div className="cf-img-ph"><span className="di"></span><span className="lb">{item.label}</span></div>}
+    <>
+      <div className="cf-card" style={{animationDelay: (index * 0.1) + 's'}}>
+        <div className="cf-stamp">DECLASSIFIED</div>
+        <div className="cf-file-num">{fileNums[index % fileNums.length]}</div>
+        <div className="cf-img" onClick={openLightbox}>
+          {item.img && !imgFailed
+            ? <><img src={item.img} alt={item.title} onError={() => setImgFailed(true)} /><span className="cf-img-zoom-hint">CLICK TO EXPAND</span></>
+            : <div className="cf-img-ph"><span className="di"></span><span className="lb">{item.label}</span></div>}
+        </div>
+        <div className="cf-label">{item.label}</div>
+        <div className="cf-title">{item.title}</div>
+        <div className="cf-desc">{item.desc}</div>
       </div>
-      <div className="cf-label">{item.label}</div>
-      <div className="cf-title">{item.title}</div>
-      <div className="cf-desc">{item.desc}</div>
-    </div>
+      {lightboxOpen && (
+        <div className="cf-lightbox" onClick={closeLightbox}>
+          <div className="cf-lightbox-close" onClick={closeLightbox}>ESC / CLOSE ×</div>
+          <img src={item.img} alt={item.title} onClick={e => e.stopPropagation()} />
+          <div className="cf-lightbox-caption">{item.label} — {item.title}</div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -3573,16 +3635,24 @@ function KaNovaCard() {
             allowFullScreen
             loading="lazy"
           />
-          <div className="ka-embed-overlay">
-            <a
-              href="https://kaungoryours.github.io/project-ka-nova/ka-nova-phase2.html"
-              target="_blank"
-              rel="noopener"
-              className="ka-embed-open btn btn-outline"
-            >
-              Open Full Simulation ↗
-            </a>
-          </div>
+        </div>
+        <div className="ka-embed-overlay">
+          <a
+            href="https://kaungoryours.github.io/project-ka-nova/ka-nova-phase2.html"
+            target="_blank"
+            rel="noopener"
+            className="ka-embed-open btn btn-outline"
+          >
+            Open Full Simulation ↗
+          </a>
+          <a
+            href="https://github.com/KaungOrYours/project-ka-nova"
+            target="_blank"
+            rel="noopener"
+            className="ka-embed-gh"
+          >
+            ⌥ GitHub Repo ↗
+          </a>
         </div>
       </div>
     </article>
@@ -3605,6 +3675,7 @@ function Projects() {
       ],
       result: "First-authored · IEEE Xplore 2025 · DOI 10.1109/RASSE.2025.11315309",
       embed: "https://public.tableau.com/views/GlobalConflictDashboard19602023_17535437946040/GlobalConflictDashboard?:embed=y&:showVizHome=no",
+      github: "https://github.com/KaungOrYours/From-Raw-Data-to-Informed-Insight-Conflict-Risk-Using-Macroeconomic-and-Governance-Indicators",
     },
 
     {
@@ -3619,6 +3690,7 @@ function Projects() {
       ],
       result: "Live: sme-analytics-platform.vercel.app",
       embed: "https://sme-analytics-platform.vercel.app",
+      github: "https://github.com/KaungOrYours/sme-analytics-platform",
     },
 
   ];
@@ -3666,6 +3738,7 @@ function Projects() {
                   </div>
                   <div className="ka-embed-overlay">
                     <a href={p.embed.replace('?:embed=y&:showVizHome=no','')} target="_blank" rel="noopener" className="ka-embed-open btn btn-outline">Open Full ↗</a>
+                    {p.github && <a href={p.github} target="_blank" rel="noopener" className="ka-embed-gh">⌥ GitHub Repo ↗</a>}
                   </div>
                 </div>
               )}
@@ -3715,12 +3788,26 @@ function Skills() {
 /* ============== CONTACT ============== */
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setSending(true);
+    // Primary: mailto link which opens email client pre-filled
+    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+    window.location.href = `mailto:kaung.htet_kh@icloud.com?subject=${subject}&body=${body}`;
+    setSent(true);
+    setSending(false);
+  }
+
   const links = [
     { ic: "@", top: "Email", val: "kaung.htet_kh@icloud.com", href: "mailto:kaung.htet_kh@icloud.com" },
     { ic: "☏", top: "Phone", val: "+65 9342 0524", href: "tel:+6593420524" },
     { ic: "in", top: "LinkedIn", val: "linkedin.com/in/kaung-htet-benjamin", href: "https://linkedin.com/in/kaung-htet-benjamin" },
     { ic: "gh", top: "GitHub", val: "github.com/KaungOrYours", href: "https://github.com/KaungOrYours" },
-    { ic: "↓", top: "Curriculum Vitae", val: "Download CV — Kaung Htet 2026", href: "#" },
+    { ic: "↓", top: "Curriculum Vitae", val: "Download CV — Kaung Htet 2026", href: "./assets/Kaung_Htet_CV_2026.pdf" },
   ];
   return (
     <section className="section" id="contact">
@@ -3744,7 +3831,7 @@ function Contact() {
             </p>
             <div className="contact-links">
               {links.map((l) => (
-                <a className="contact-link" key={l.top} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+                <a className="contact-link" key={l.top} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener" download={l.ic === '↓' ? true : undefined}>
                   <span className="contact-icon">{l.ic}</span>
                   <span className="contact-text">
                     <span className="top">{l.top}</span>
@@ -3757,22 +3844,22 @@ function Contact() {
           <form
             className="contact-form reveal"
             style={{'--delay': '0.15s'}}
-            onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+            onSubmit={handleSubmit}
           >
             <div className="field">
               <label>Name</label>
-              <input type="text" required placeholder="Your name" />
+              <input type="text" required placeholder="Your name" value={formData.name} onChange={e => setFormData(p => ({...p, name: e.target.value}))} />
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" required placeholder="you@institution.edu" />
+              <input type="email" required placeholder="you@institution.edu" value={formData.email} onChange={e => setFormData(p => ({...p, email: e.target.value}))} />
             </div>
             <div className="field">
               <label>Message</label>
-              <textarea required placeholder="What would you like to discuss?"></textarea>
+              <textarea required placeholder="What would you like to discuss?" value={formData.message} onChange={e => setFormData(p => ({...p, message: e.target.value}))}></textarea>
             </div>
-            <button type="submit" className="submit-btn">
-              {sent ? "Message Sent ✓" : "Send Message →"}
+            <button type="submit" className="submit-btn" disabled={sending}>
+              {sent ? "Message Sent ✓" : sending ? "Sending…" : "Send Message →"}
             </button>
           </form>
         </div>
