@@ -2368,9 +2368,8 @@ const asset = (p) => p + (p.includes('?') ? '&' : '?') + ASSET_V;
 
 /* =====================================================================
  * Kaung · AI Layer — three-mode assistant
- * Backed by Google Gemini 1.5 Flash (free tier: 15 req/min).
+ * Backed by Claude Haiku 4.5 via a server-side proxy (/api/chat.js).
  * Rate limit tracked in localStorage — countdown shown when limit hit.
- * Replace GEMINI_API_KEY below with your key from aistudio.google.com
  * ===================================================================== */
 
 
@@ -2505,18 +2504,16 @@ const STARTERS_RESEARCH = [
 ];
 
 /* =====================================================================
- * Gemini API config
- * Replace YOUR_GEMINI_API_KEY with your actual key from
- * https://aistudio.google.com/app/apikey (free tier: 15 req/min)
+ * Claude API — calls go through /api/chat.js, a server-side proxy that
+ * holds the real Anthropic key. Never put an API key in this file.
  * ===================================================================== */
-const GEMINI_API_KEY = "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";
-const GEMINI_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+const CHAT_ENDPOINT = "/api/chat";
 
 /* =====================================================================
- * Rate limit tracker — max 15 requests per 60 seconds (Gemini free tier)
+ * Rate limit tracker — max 15 requests per 60 seconds
  * Timestamps stored in localStorage so limit survives page refresh.
  * ===================================================================== */
-const RL_KEY = "gemini_requests";
+const RL_KEY = "chat_requests";
 const RL_MAX = 15;
 const RL_WINDOW = 60_000; // 60 seconds in ms
 
@@ -2581,35 +2578,28 @@ function formatCountdown(ms) {
 }
 
 /* =====================================================================
- * Gemini API caller — builds contents array with system context
+ * Claude API caller — posts to our own /api/chat proxy, which holds
+ * the real Anthropic key server-side.
  * ===================================================================== */
-async function callGemini(systemPrompt, history, userMessage) {
+async function callClaude(systemPrompt, history, userMessage) {
   const { allowed, waitMs } = checkRateLimit();
   if (!allowed) throw new Error('RATE_LIMIT:' + waitMs);
+  const system = systemPrompt + '\n\n--- KNOWLEDGE BASE ---\n' + KNOWLEDGE_BASE.trim() + '\n--- END ---';
   const messages = [
-    { role: 'system', content: systemPrompt + '\n\n--- KNOWLEDGE BASE ---\n' + KNOWLEDGE_BASE.trim() + '\n--- END ---' },
     ...(history||[]).map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content })),
     { role: 'user', content: userMessage }
   ];
-  const body = { model: 'llama-3.1-8b-instant', messages: messages, max_tokens: 1000, temperature: 0.7 };
   recordRequest();
-  const res = await fetch(GEMINI_ENDPOINT, {
+  const res = await fetch(CHAT_ENDPOINT, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GEMINI_API_KEY },
-    body: JSON.stringify(body)
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, messages })
   });
-  if (!res.ok) { const e = await res.json().catch(function(){return {};}); throw new Error((e && e.error && e.error.message) || 'HTTP ' + res.status); }
-  const data = await res.json();
-  const text = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
-  if (!text) throw new Error('Empty response from Groq');
-  return text.trim();
+  const data = await res.json().catch(function(){return {};});
+  if (!res.ok) throw new Error(data.error || 'HTTP ' + res.status);
+  if (!data.text) throw new Error('Empty response from Claude');
+  return data.text.trim();
 }
-
-
-/* NOTE: Gemini allows browser-side fetch with an API key in the URL.
- * No CORS proxy needed. Just replace YOUR_GEMINI_API_KEY above.
- * Get a free key at: https://aistudio.google.com/app/apikey
- * Do NOT use window.claude.complete — that only works inside Claude.ai artifacts. */
 
 /* =====================================================================
  * MODE A / C — Chat
@@ -2645,7 +2635,7 @@ function ChatPane({ mode, history, setHistory, starters, accent }) {
     setBusy(true);
     try {
       const systemPrompt = mode === 'research' ? SYSTEM_RESEARCH : SYSTEM_ASK;
-      const reply = await callGemini(systemPrompt, history, msg);
+      const reply = await callClaude(systemPrompt, history, msg);
       setHistory([...next, { role: 'assistant', content: reply }]);
     } catch (e) {
       const msg = e.message || String(e);
@@ -2820,7 +2810,7 @@ function MatcherPane() {
     setResult(null);
     setBusy(true);
     try {
-      const text = await callGemini(SYSTEM_MATCHER, [], "Job Description to evaluate:\n\n" + jd.trim());
+      const text = await callClaude(SYSTEM_MATCHER, [], "Job Description to evaluate:\n\n" + jd.trim());
       let parsed = null;
       try {
         parsed = JSON.parse(text);
@@ -3032,7 +3022,7 @@ function AILayerSection() {
           <h2>An AI that <em>knows me</em>.</h2>
           <p className="section-sub">
             Ask about my work, test my fit for your role, or probe the research.
-            This assistant runs on Gemini — built to show, not just tell.
+            This assistant runs on Claude — built to show, not just tell.
           </p>
         </div>
         <div className="ai-section-shell reveal">
