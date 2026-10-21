@@ -1,0 +1,263 @@
+%==============================================================================
+%  Kaung Htet - Curriculum Vitae (2026)
+%  ATS-OPTIMISED: single column, no tables for content, no graphics, no icons,
+%  standard section headings, machine-readable text order, selectable text.
+%  Compile with: pdflatex Kaung_Htet_CV_2026.tex   (run twice)
+%==============================================================================
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+
+% --- ATS hygiene -------------------------------------------------------------
+\pagestyle{empty}                     % no headers/footers (ATS ignores them)
+\raggedbottom
+% justified body text: \hfill must stay reliable for right-aligned dates
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\ifdefined\pdfgentounicode\pdfgentounicode=1\fi   % copy/paste-able text (pdflatex)
+
+\hypersetup{
+  pdftitle={Kaung Htet - Data Engineer, AI/ML Engineer, Software Engineer},
+  pdfauthor={Kaung Htet},
+  pdfsubject={Curriculum Vitae},
+  pdfkeywords={Data Engineer, Data Engineering, ETL, Data Pipelines, Python, SQL,
+  CSharp, .NET, FastAPI, Machine Learning, AI Engineer, LLM, LangChain, MCP, Docker,
+  AWS, InfluxDB, Power BI, Tableau, Grafana, PLC, Siemens S7, Modbus, Singapore}
+}
+
+% --- Section styling --------------------------------------------------------
+\titleformat{\section}
+  {\normalfont\large\bfseries\scshape}{}{0pt}{}[\vspace{-0.6em}\rule{\textwidth}{0.6pt}]
+\titlespacing{\section}{0pt}{6pt}{4pt}
+
+\newcommand{\role}[4]{%
+  \textbf{#1} \hfill \textbf{#3}\\
+  \textit{#2} \hfill \textit{#4}\\[2pt]
+}
+
+\newcommand{\project}[3]{%
+  \textbf{#1} \textbar{} #2 \hfill #3\\[1pt]
+}
+
+\newlist{tight}{itemize}{1}
+\setlist[tight]{label=\textbullet, leftmargin=1.2em, labelsep=0.4em,
+                topsep=1pt, itemsep=1pt, parsep=0pt, partopsep=0pt}
+
+\newcommand{\heading}[1]{\textbf{#1}}
+
+%==============================================================================
+\begin{document}
+
+%--- HEADER -------------------------------------------------------------------
+{\LARGE\bfseries Kaung Htet}\\[3pt]
+Data Engineer \textbar{} AI/ML Engineer \textbar{} Software Engineer\\[3pt]
+Singapore \textbar{} +65 9342 0524 \textbar{} lewisnick.ln8899@gmail.com\\
+linkedin.com/in/kaung-htet-benjamin \textbar{} github.com/KaungOrYours \textbar{} kaung-htet-portfolio.vercel.app
+
+%--- SUMMARY ------------------------------------------------------------------
+\section*{Professional Summary}
+Data and AI engineer with 4+ years building production data pipelines, ML systems and
+industrial software. Currently Lead Software Developer and AI Engineer, owning the full
+stack behind offshore vessel control: C\#/.NET control applications on Siemens S7 PLCs,
+a Python/SQL/InfluxDB time-series data layer, and an on-premise AI document-intelligence
+platform. First-author IEEE Xplore publication; First Class BSc Computing Science; MSc Data
+Science (final-project stage). Proven record of turning manual, hours-long engineering and
+reporting work into automated pipelines measured in minutes, and of leading junior
+engineers to delivery.
+
+%--- SKILLS -------------------------------------------------------------------
+\section*{Technical Skills}
+\heading{Languages:} Python, SQL, C\#, JavaScript, Bash, HTML/CSS, LaTeX\\
+\heading{Data Engineering:} ETL/ELT, batch and streaming pipelines, data modelling, schema
+design, data quality and validation, Databricks, AWS Glue, pandas, NumPy, feature
+engineering, time-series data, InfluxDB v1/v2, SQLite, CSV/JSON/JSONL at scale\\
+\heading{Machine Learning and AI:} scikit-learn, PyTorch, XGBoost, CatBoost, Random Forest,
+soft-voting ensembles, SHAP explainability, cross-validation, hyperparameter tuning,
+TF-IDF, cosine similarity, recommender systems, NLP, OCR, agent-based modelling,
+Monte Carlo simulation\\
+\heading{LLM and Generative AI:} LangChain, Ollama, Llama 3.2, Claude API, Model Context
+Protocol (MCP), multi-agent orchestration, prompt engineering, RAG, embeddings, semantic
+search, JSONL dataset creation, LLM output validation and guardrails\\
+\heading{Backend and Applications:} FastAPI, Flask, REST API design, async job queues,
+pytest, .NET Framework, WinForms, PySide6, multi-threaded desktop applications\\
+\heading{Cloud and DevOps:} Docker, Docker Compose, AWS (EC2, Glue), Vercel, RunPod GPU
+cloud, Linux, Git/GitHub, CI/CD, n8n workflow automation, release and rollback management\\
+\heading{BI and Analytics:} Power BI, Tableau, Grafana, Excel (Power Query, VBA), Matplotlib,
+Seaborn, D3.js, Three.js, KPI and operational dashboards\\
+\heading{Industrial and Engineering Data:} Siemens S7-1500 PLC communication (S7netplus),
+Modbus RTU, dynamic positioning and mooring control, automatic heave compensation,
+offshore commissioning, DXF/DWG parsing (ezdxf, ACadSharp), CAD-to-JSON conversion\\
+\heading{Statistics:} hypothesis testing, Mann-Whitney U, Kruskal-Wallis, Cohen's d,
+bootstrap confidence intervals, Sobol sensitivity analysis (SALib)\\
+\heading{Ways of working:} Agile/Scrum, technical documentation, stakeholder reporting,
+code review, mentoring and leading junior developers
+
+%--- EXPERIENCE ---------------------------------------------------------------
+\section*{Professional Experience}
+
+\role{Lead Software Developer and AI Engineer}
+     {Tiancheng Electrical Marine Equipment Pte. Ltd. -- Singapore}
+     {Aug 2026 -- Present}{}
+\begin{tight}
+  \item Own the full software stack for offshore vessel positioning and automatic heave
+  compensation (AHC): C\# (.NET Framework) WinForms control applications communicating with
+  Siemens S7-1500 PLCs via S7netplus and a dynamic positioning system over Modbus RTU on
+  industrial touchscreen PCs.
+  \item Designed and run the time-series data layer: SQLite operational logging, InfluxDB
+  v1/v2 with retention policies, Telegraf replication to AWS EC2, and Grafana dashboards
+  giving engineers real-time visibility of sensor and winch telemetry.
+  \item Lead a Phase 1, 8-month AI Digital Management System programme (engineering-document
+  database and identifier-driven workflow, 3 pilot product lines, 7 contracted deliverables)
+  as the technical lead within a 5-person client-facing team.
+  \item Built a Python CAD data pipeline converting DXF/DWG engineering drawings into a
+  normalised JSON schema (ezdxf, ACadSharp) with pytest coverage and a PySide6 operator GUI;
+  reduced round-trip entity loss to 0.72\% (4 of 555 entities) and diagnosed and fixed 4
+  DXF-compatibility defects so generated drawings open natively in AutoCAD LT.
+  \item Delivered an automated drawing-labelling pipeline linking BOM balloons, leaders and
+  parts tables into structured training data -- 1,200+ validated component records across
+  pilot drawing sets, replacing manual annotation -- and specified the production ML approach
+  (rules-first entity extraction plus gradient-boosted ranking over the drawing entity graph)
+  with leave-one-product-out validation and staged go/no-go quality gates.
+  \item Architected the on-premise AI engineering environment: a Python Model Context
+  Protocol (MCP) server, 10 specialist agent configurations, file-based project memory and
+  signed-commit Git on an encrypted removable remote -- a strictly local, zero-cloud design
+  meeting a 7-control client data-security baseline.
+  \item Manage releases to industrial PCs end to end (backup, deployment, verification,
+  rollback); reverse-documented the inherited control software into a 12-document knowledge
+  base and a severity-ranked (S1--S4) defect register; deployed Positioning Control and AHC
+  software on a live rock-dumping barge (TC Offshore Marine, Sep 2026), shipping continuous
+  on-site builds against changing requirements while leading junior developers.
+\end{tight}
+
+\vspace{4pt}
+\role{Freelance Software and Data Engineer}
+     {Independent -- Singapore / Remote}
+     {Jan 2024 -- Jul 2026}{}
+\begin{tight}
+  \item Delivered end-to-end data products for SME and consulting clients across Singapore
+  and Southeast Asia: FastAPI backends, Python processing layers and web frontends,
+  containerised with Docker Compose and shipped to cloud hosting.
+  \item Automated recurring client data workflows with n8n on Docker -- scheduled ingestion,
+  webhook-triggered pipelines and multi-step orchestration -- removing standing manual
+  reporting effort.
+  \item Processed multi-hundred-thousand-row datasets on GPU cloud (RunPod RTX 4090) through
+  reproducible, version-controlled pipelines feeding interactive client dashboards.
+\end{tight}
+
+\vspace{4pt}
+\role{Data Analyst}
+     {Khine Myal Min Co. Ltd. -- Mandalay, Myanmar}
+     {Apr 2021 -- Apr 2023}{}
+\begin{tight}
+  \item Built Python and SQL pipelines across sales, supply-chain and operations data,
+  automating extraction, transformation and reporting and cutting data-preparation time
+  from hours to minutes.
+  \item Developed and maintained live Power BI dashboards on SQL sources used daily by
+  management and operations to drive stock, pricing and distribution decisions through a
+  period of severe market volatility.
+  \item Partnered with non-technical stakeholders to define KPIs and translate commercial
+  questions into repeatable analytical reporting.
+\end{tight}
+
+%--- PROJECTS -----------------------------------------------------------------
+\section*{Selected Projects}
+
+\project{Ka-Nova -- Hybrid Generative Agent-Based Model}{Python, Mesa, LangChain, Llama 3.2, NumPy, RunPod, Three.js}{2026}
+\begin{tight}
+  \item MSc dissertation simulation engine combining 11,000 rule-based Mesa citizen agents
+  (6-layer cognitive architecture, 56 ethnic-archetype profiles), 7 LLM elite decision
+  agents per scenario, and a 17-vector external-world layer with 10 stochastic shock types.
+  \item Executed 300 Monte Carlo runs (1.5M simulated agent-years, $\sim$30 GPU hours on RTX
+  4090); results differentiated at $p<0.001$ with Cohen's $d \geq 1.21$ across all primary KPIs.
+  \item Engineered CVES, a 4-layer runtime validation pipeline (schema, constraint, theory
+  and statistical-plausibility checks) that gates every LLM decision before it enters the
+  simulation and logs violations to JSONL -- the project's core methodological contribution.
+\end{tight}
+
+\vspace{3pt}
+\project{Conflict Risk Forecasting (IEEE Xplore)}{Python, scikit-learn, SHAP, SQL, Tableau, Flask}{2025}
+\begin{tight}
+  \item Built a reproducible ETL and ML pipeline harmonising UCDP, World Bank and Freedom
+  House sources into a 12,700-record country-year dataset (195 countries, 1960--2023) with
+  imputation reducing post-processing missingness to 0\%.
+  \item Trained a soft-voting ensemble for next-year conflict risk: 0.95 AUC, 0.82 accuracy
+  and 0.81 F1 on the held-out 2023 year, with SHAP interpretability isolating top risk
+  drivers and a published Tableau dashboard for stakeholders.
+  \item First-author paper accepted and published at IEEE RASSE 2025 (DOI:
+  10.1109/RASSE64831.2025.11315309).
+\end{tight}
+
+\vspace{3pt}
+\project{Recipe and Wine Pairing Recommender}{Python, scikit-learn, TF-IDF, pandas, Orange}{2025}
+\begin{tight}
+  \item Built a content-based recommender over 831k merged recipes (fuzzy de-duplicated to
+  398k) and 1.13M user interaction records, using TF-IDF vectorisation and cosine similarity
+  for free-text prompt-to-recipe matching.
+  \item Engineered the full data layer -- multi-source harmonisation, de-duplication
+  reporting, a 35k-row wine-food pairing profile join, and restaurant-menu matching -- and
+  serialised vectoriser and matrix artefacts for sub-second inference.
+\end{tight}
+
+\vspace{3pt}
+\project{PDF to EPUB Conversion Platform}{FastAPI, Tesseract OCR, PyMuPDF, ebooklib, Docker}{2025}
+\begin{tight}
+  \item Full-stack document pipeline that auto-detects digital versus scanned PDFs, runs
+  multilingual OCR (English, Burmese, Chinese), applies heuristic heading detection to build
+  a structured table of contents, and emits styled EPUB output.
+  \item Designed the async job API (submit, poll status, download) with live progress
+  tracking, automatic temp-file expiry, and a single-command Docker Compose deployment.
+\end{tight}
+
+\vspace{3pt}
+\project{SME Analytics Platform}{FastAPI, Python, SQL, AutoML, Docker Compose, Vercel}{2024}
+\begin{tight}
+  \item Zero-touch analytics product for SMEs without in-house data teams: automated
+  ingestion, sales forecasting, churn analysis and client-facing dashboards behind a
+  documented REST API, deployed live.
+\end{tight}
+
+%--- PUBLICATIONS -------------------------------------------------------------
+\section*{Publications}
+\textbf{K. Htet} et al., ``From Raw Data to Informed Insight: Conflict Risk Using
+Macroeconomic and Governance Indicators,'' \textit{IEEE RASSE 2025}, IEEE Xplore.
+DOI: 10.1109/RASSE64831.2025.11315309. (First author.)\\[2pt]
+Ka-Nova hybrid GABM architecture and constitutional-encoding methodology -- manuscript in
+preparation, IEEE Access, 2026 (first author, with Dr. Md Saifullah Bin Razali).
+
+%--- EDUCATION ----------------------------------------------------------------
+\section*{Education}
+\textbf{MSc Data Science} \hfill \textbf{Jan 2026 -- Dec 2026 (expected)}\\
+University of Hertfordshire (via PSB Academy), Singapore \hfill \textit{Final-project stage}\\
+Top module results: Fundamentals of Data Science 91, Data Mining and Discovery 84.\\[3pt]
+\textbf{BSc (Hons) Computing Science -- First Class Honours} \hfill \textbf{2024 -- 2025}\\
+Coventry University (via PSB Academy), Singapore\\
+Final-year project published as a first-author IEEE RASSE 2025 paper.\\[3pt]
+\textbf{HND Computer Programming -- Grade A} \hfill \textbf{2018 -- 2023}\\
+iNet College, Mandalay, Myanmar
+
+%--- AWARDS -------------------------------------------------------------------
+\section*{Certifications, Awards and Leadership}
+\begin{tight}
+  \item Google Data Analytics Professional Certificate -- Google / Coursera.
+  \item PSB Academy ``Student Shine on Global Stage'' recognition, 2025.
+  \item Pearson Overall Merit Award on HND graduation, iNet College.
+  \item Students' Union President, iNet College (2 years 9 months); Organisation Manager,
+  Sparks of Hope (1 year 1 month) -- led student representation, events and volunteer teams.
+  \item Volunteer teaching: Pan Pyo Thu Charity Group, Mandalay (2 years 10 months);
+  children with autism, AIESEC Vietnam (3 months).
+\end{tight}
+
+%--- LANGUAGES ----------------------------------------------------------------
+\section*{Languages}
+English (professional) \textbar{} Burmese (native)
+
+\end{document}

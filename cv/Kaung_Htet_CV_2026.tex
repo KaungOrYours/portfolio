@@ -1,0 +1,165 @@
+%==============================================================================
+%  Kaung Htet - Curriculum Vitae (2026) - ONE PAGE
+%  ATS-OPTIMISED: single column, no tables for content, no graphics, no icons,
+%  standard section headings, machine-readable order, selectable text.
+%  Compile: pdflatex Kaung_Htet_CV_2026.tex   (run twice)
+%  A longer two-page version lives in Kaung_Htet_CV_2026_full.tex
+%==============================================================================
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.4in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+% Kill f-ligatures (fi, fl, ff). Without this, "InfluxDB" and "Certificate"
+% can extract from the PDF as single ligature glyphs, and an ATS keyword
+% search for them misses. Costs nothing visually.
+% microtype's DisableLigatures is pdfTeX-only, so guard it; under pdfTeX the
+% \pdfgentounicode=1 above is the belt-and-braces fix for the same problem.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{microtype}
+  \DisableLigatures[f]{encoding = *, family = *}
+\fi
+
+% --- ATS hygiene -------------------------------------------------------------
+\pagestyle{empty}                      % no headers/footers
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\ifdefined\pdfgentounicode\pdfgentounicode=1\fi   % copy/paste-able text
+
+\hypersetup{
+  pdftitle={Kaung Htet - Data Engineer, AI/ML Engineer, Software Engineer},
+  pdfauthor={Kaung Htet},
+  pdfsubject={Curriculum Vitae},
+  pdfkeywords={Data Engineer, Data Engineering, ETL, Data Pipelines, Python, SQL,
+  CSharp, .NET, FastAPI, Machine Learning, AI Engineer, LLM, LangChain, MCP, RAG,
+  Docker, AWS, InfluxDB, Power BI, Tableau, Grafana, PLC, Siemens S7, Modbus,
+  Singapore}
+}
+
+% --- Compact section headings -----------------------------------------------
+\titleformat{\section}
+  {\normalfont\large\bfseries\scshape}{}{0pt}{}[\vspace{-0.72em}\rule{\textwidth}{0.6pt}]
+\titlespacing{\section}{0pt}{4pt}{2pt}
+
+\newlist{tight}{itemize}{1}
+\setlist[tight]{label=\textbullet, leftmargin=1.05em, labelsep=0.35em,
+                topsep=1pt, itemsep=0.6pt, parsep=0pt, partopsep=0pt}
+
+% Role / project headers: one line each, date right-aligned.
+\newcommand{\role}[3]{\textbf{#1} \textbar{} \textit{#2} \hfill #3\\[1pt]}
+\newcommand{\entry}[3]{\textbf{#1} \textbar{} #2 \hfill #3\\}
+
+%==============================================================================
+\begin{document}
+\fontsize{9.2}{10.5}\selectfont
+
+%--- HEADER -------------------------------------------------------------------
+\begin{center}
+{\LARGE\bfseries Kaung Htet}\\[2pt]
+Data Engineer \textbar{} AI/ML Engineer \textbar{} Software Engineer\\[1pt]
+Singapore \textbar{} +65 9342 0524 \textbar{} lewisnick.ln8899@gmail.com \textbar{}
+linkedin.com/in/kaung-htet-benjamin \textbar{} github.com/KaungOrYours \textbar{}
+kaung-htet-portfolio.vercel.app
+\end{center}
+
+%--- SUMMARY ------------------------------------------------------------------
+\section*{Summary}
+Data and AI engineer, 4+ years across data pipelines, ML systems and industrial software.
+Currently Lead Software Developer and AI Engineer: C\#/.NET control software on Siemens S7
+PLCs, a Python/SQL/InfluxDB time-series layer, and an on-premise AI document-intelligence
+platform. First-author IEEE Xplore publication; First Class BSc; MSc Data Science (in progress).
+
+%--- SKILLS -------------------------------------------------------------------
+\section*{Technical Skills}
+\textbf{Languages \& Backend:} Python, SQL, C\#, JavaScript, Bash, FastAPI, Flask, REST API
+design, pytest, .NET/WinForms, PySide6\\
+\textbf{Data \& ML:} ETL/ELT, data pipelines, data modelling, Databricks, AWS Glue, pandas,
+NumPy, time-series, InfluxDB, SQLite, scikit-learn, PyTorch, XGBoost, ensembles, SHAP, TF-IDF,
+recommender systems, OCR\\
+\textbf{AI \& LLM:} LangChain, Ollama/Llama 3.2, Claude API, Model Context Protocol (MCP),
+multi-agent orchestration, RAG, prompt engineering, LLM output validation, agent-based
+modelling (Mesa), Monte Carlo\\
+\textbf{Cloud, BI \& Industrial:} Docker, AWS (EC2, Glue), Vercel, RunPod, Linux, Git, CI/CD,
+n8n, Power BI, Tableau, Grafana, Siemens S7-1500 (S7netplus), Modbus RTU, DXF/DWG (ezdxf,
+ACadSharp)
+
+%--- EXPERIENCE ---------------------------------------------------------------
+\section*{Professional Experience}
+
+\role{Lead Software Developer and AI Engineer}
+     {Tiancheng Electrical Marine Equipment, Singapore}{Aug 2026 -- Present}
+\begin{tight}
+  \item Own the full stack for offshore vessel positioning and automatic heave compensation:
+  C\# (.NET) WinForms control applications on Siemens S7-1500 PLCs via S7netplus plus a
+  dynamic positioning system over Modbus RTU; deployed live on a rock-dumping barge (Sep 2026).
+  \item Built and run the time-series data layer -- SQLite, InfluxDB v1/v2 with retention
+  policies, Telegraf replication to AWS EC2, and Grafana dashboards for real-time sensor and
+  winch telemetry.
+  \item Technical lead on an 8-month AI document-intelligence programme (3 pilot product
+  lines, 7 deliverables): Python DXF/DWG-to-JSON pipeline (ezdxf, ACadSharp, pytest, PySide6)
+  cutting round-trip entity loss to 0.72\% and resolving 4 AutoCAD compatibility defects;
+  automated labelling produced 1,200+ validated component records, replacing manual annotation.
+  \item Architected the on-premise AI environment (Python MCP server, 10 specialist agents,
+  file-based memory, signed-commit Git) -- a zero-cloud design meeting a 7-control client
+  security baseline. Manage releases/rollback to industrial PCs; lead junior developers.
+\end{tight}
+
+\vspace{2pt}
+\role{Freelance Software and Data Engineer}{Independent, Singapore / Remote}{Jan 2024 -- Jul 2026}
+\begin{tight}
+  \item Delivered end-to-end data products for SME and consulting clients: FastAPI backends,
+  Python processing layers and web frontends, containerised with Docker Compose and shipped
+  to cloud hosting.
+  \item Automated recurring client workflows with n8n on Docker (scheduled ingestion,
+  webhook pipelines) and processed large datasets on RunPod GPU cloud through reproducible,
+  version-controlled pipelines feeding interactive dashboards.
+\end{tight}
+
+\vspace{2pt}
+\role{Data Analyst}{Khine Myal Min Co. Ltd., Mandalay, Myanmar}{Apr 2021 -- Apr 2023}
+\begin{tight}
+  \item Built Python and SQL pipelines across sales, supply-chain and operations data,
+  automating extraction, transformation and reporting and cutting data-preparation time from
+  hours to minutes.
+  \item Built and maintained live Power BI dashboards on SQL sources, used daily by management
+  and operations to drive stock, pricing and distribution decisions.
+\end{tight}
+
+%--- PROJECTS & PUBLICATION ---------------------------------------------------
+\section*{Selected Projects and Publication}
+
+\entry{Ka-Nova Hybrid Generative Agent-Based Model}{Python, Mesa, LangChain, Llama 3.2, RunPod}{2026}
+MSc dissertation engine: 11,000 rule-based Mesa citizen agents plus 7 LLM elite decision
+agents per scenario over a 17-vector external world. 300 Monte Carlo runs, 1.5M simulated
+agent-years on RTX 4090; results separated at $p<0.001$, Cohen's $d \geq 1.21$. Built CVES,
+a 4-layer runtime pipeline validating every LLM decision before it enters the simulation.
+
+\vspace{1pt}
+\entry{Conflict Risk Forecasting -- published, IEEE Xplore}{Python, scikit-learn, SHAP, SQL, Tableau}{2025}
+Reproducible ETL and ML pipeline harmonising UCDP, World Bank and Freedom House into a
+12,700-record country-year dataset (195 countries, 1960--2023). Soft-voting ensemble: 0.95
+AUC, 0.82 accuracy, 0.81 F1 on the 2023 hold-out, with SHAP interpretability and a published
+Tableau dashboard. \textbf{First author}, IEEE RASSE 2025 (DOI: 10.1109/RASSE64831.2025.11315309).
+
+\vspace{1pt}
+\textbf{Recipe and Wine Pairing Recommender} \textbar{} TF-IDF, scikit-learn, pandas -- content-based
+recommender over 831k merged recipes (fuzzy de-duplicated to 398k) and 1.13M user interactions,
+with a 35k-row wine-food pairing join. \textbf{PDF to EPUB Platform} \textbar{} FastAPI, Tesseract
+OCR, PyMuPDF, Docker -- auto-detects scanned versus digital PDFs, multilingual OCR (English,
+Burmese, Chinese), heuristic table-of-contents detection, async submit/poll/download job API.
+
+%--- EDUCATION ----------------------------------------------------------------
+\section*{Education and Awards}
+\textbf{MSc Data Science} -- University of Hertfordshire (PSB Academy), Singapore; top modules 91, 84 \hfill Jan -- Dec 2026\\
+\textbf{BSc (Hons) Computing Science, First Class Honours} -- Coventry University (PSB Academy) \hfill 2024 -- 2025\\
+\textbf{HND Computer Programming, Grade A} -- iNet College, Mandalay, Myanmar \hfill 2018 -- 2023\\
+\textbf{Awards:} PSB ``Student Shine on Global Stage'' 2025; Pearson Overall Merit Award; Google Data Analytics Certificate \textbar{} \textbf{Languages:} English, Burmese
+
+\end{document}

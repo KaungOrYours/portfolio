@@ -960,6 +960,16 @@ section { position: relative; }
   font-weight: 600;
 }
 
+.ai-scope {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--accent-line);
+  color: var(--muted);
+  font-size: 9.5px;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  text-transform: none;
+}
+
 .ai-body {
   flex: 1;
   min-height: 0;
@@ -1902,7 +1912,7 @@ section { position: relative; }
 <script type="text/babel">
 const { useState, useEffect, useRef, useMemo } = React;
 
-const ASSET_V = 'v=1';
+const ASSET_V = 'v=2';
 const asset = (p) => p + (p.includes('?') ? '&' : '?') + ASSET_V;
 
 /* =====================================================================
@@ -1912,145 +1922,10 @@ const asset = (p) => p + (p.includes('?') ? '&' : '?') + ASSET_V;
  * ===================================================================== */
 
 
-const KNOWLEDGE_BASE = `
-IDENTITY
-Name: Kaung Htet (also known professionally as Kaung Benjamin Htet)
-Email: kaung.htet_kh@icloud.com | Phone: +65 9342 0524
-LinkedIn: linkedin.com/in/kaung-htet-benjamin
-GitHub: github.com/KaungOrYours
-Current status: Employed full-time (see Work Experience), open to conversations
-about ML Engineer / Data Scientist roles in Singapore
-
-EDUCATION
-- MSc Data Science, final-project stage (Jan 2026 – Dec 2026, expected)
-  University of Hertfordshire / PSB Academy Singapore
-  Top scores: Data Mining & Discovery (84), Fundamentals of Data Science (91)
-- BSc (Hons) Computing Science — First Class
-  Coventry University / PSB Academy Singapore (Mar 2024 – Sep 2025)
-  Final Year Project → IEEE RASSE 2025 first-authored publication
-- Higher National Diploma, Computer Programming — Grade A
-  iNet College, Mandalay, Myanmar (2018–2023)
-  Pearson Overall Merit Award upon graduation
-  Students' Union President for 2 years 9 months (Apr 2021 – Dec 2023)
-
-WORK EXPERIENCE
-- Lead Software Developer and AI Engineer | Tiancheng Electrical Marine
-  Equipment Pte. Ltd. | Aug 2026 – Present | Singapore
-  * Develop and maintain C# (.NET Framework) WinForms control applications
-    communicating with Siemens S7 PLCs (S7netplus) and a dynamic positioning
-    system (Modbus RTU) on industrial touchscreen PCs
-  * Build and maintain the data layer using SQLite, AWS InfluxDB v2, and
-    Grafana dashboards for real-time sensor monitoring
-  * Manage software releases and deployments to industrial PCs, including
-    backup, verification, and rollback procedures
-  * Develop Python tools for engineering document processing — DXF/DWG to
-    JSON conversion (ezdxf, ACadSharp), a tested backend pipeline (pytest),
-    and a PySide6 GUI
-  * Lead R&D on AI-driven vessel positioning and mooring control; conduct
-    offshore visits for commissioning and system validation
-  * Lead and coordinate junior developers
-
-- Freelance Software and Data Engineer | Independent | Jan 2024 – Jul 2026
-  Singapore / Remote
-  * Built and deployed end-to-end data applications: FastAPI backend,
-    Python data-processing layer, web frontend, containerised with Docker
-    Compose and shipped to cloud
-  * Automated data workflows with n8n on Docker — scheduled pipelines,
-    webhook-triggered ingestion, multi-step orchestration
-  * Processed large datasets on GPU cloud (RunPod RTX 4090) through
-    reproducible pipelines feeding interactive dashboards
-
-- Data Analyst | Khine Myal Min Co. Ltd. | Apr 2021 – Apr 2023
-  Mandalay, Myanmar
-  * Built Python and SQL data pipelines across sales, supply-chain, and
-    operations data, cutting data-prep time from hours to minutes
-  * Developed and maintained live Power BI dashboards connected to SQL
-    databases, used daily by management and operations teams
-
-PROJECTS
-1. Ka-Nova — Hybrid Generative Agent-Based Model (Apr 2026 – Present)
-   MSc dissertation project, associated with University of Hertfordshire
-   Architecture: 10,000 Mesa citizen agents (7 archetypes, 6 cognitive layers)
-   + 3 LLM elite agents (Llama 3.2 3B via LangChain: Chancellor, President, General)
-   Closed-loop LLM-simulation feedback. 1,500,000 agent-years computed.
-   300 Monte Carlo runs on RunPod RTX 4090 (~30 hours).
-   18 constitutional articles encoded as 40+ computable parameters.
-   Key results (Year 50):
-     Corruption: 0.189 (Full MFU) vs 0.933 (Military baseline)
-     Coup probability: 0.000 (Full MFU) vs 0.600 (Military baseline)
-     Statistical significance: p<0.001 Mann-Whitney U, Cohen's d
-   Targeting JASSS (Journal of Artificial Societies and Social Simulation) Aug 2026
-   Co-authorship: Dr. Md Saifullah Bin Razali (Program Head UH at PSB Singapore)
-   Tech: Python, Mesa 2.3.0, LangChain, NumPy, LLM, D3.js, Three.js, GitHub Pages
-
-2. Conflict Risk Forecasting Model — IEEE Published (Apr 2025 – Jul 2025)
-   First-authored paper published IEEE Xplore 2025 (IEEE RASSE 2025)
-   Predictive conflict risk model, 195 countries, 1960–2023
-   SHAP interpretability for top conflict risk drivers
-   DOI: 10.1109/RASSE64831.2025.11315309
-   Tech: Python, SQL, Tableau, Flask, Jupyter, SHAP
-
-3. SME Analytics Platform (Apr 2026 – Present)
-   Zero-touch automated BI platform for Myanmar SMEs
-   GitHub: KaungOrYours/sme-analytics-platform
-   Tech: Python, AutoML, FastAPI, Docker
-
-TECHNICAL SKILLS
-Programming: Python, SQL, C#, JavaScript, Bash, HTML/CSS
-Industrial & Control Systems: Siemens S7-1500 PLC communication (S7netplus),
-  Modbus RTU, dynamic positioning / vessel control systems, offshore
-  commissioning, .NET Framework, WinForms, PySide6
-Data Engineering: ETL, data pipelines, Databricks, AWS Glue, pandas, NumPy,
-  feature engineering, time-series data, InfluxDB, SQLite
-CAD Data Processing: DXF/DWG parsing, ezdxf, ACadSharp, JSON schema design
-Machine Learning: scikit-learn, TensorFlow, PyTorch, Keras, XGBoost,
-  Random Forest, CatBoost, Logistic Regression, SHAP, Cross-Validation
-Agent-Based Modelling: Mesa 2.3.0, Monte Carlo Simulation, NumPy hybrid engine,
-  LangChain, Llama 3.2 3B, Local LLM deployment
-NLP & Generative AI: Embeddings, Text Classification, Semantic Search,
-  JSONL Dataset Creation, Prompt Engineering, RAG (basic), LLM Workflow Automation
-BI & Dashboards: Power BI, Tableau, Grafana, Excel (Power Query, VBA),
-  Matplotlib, Seaborn, D3.js, Three.js, operational dashboards
-Statistical Analysis: Mann-Whitney U, Cohen's d, SALib Sobol, Kruskal-Wallis,
-  Bootstrap CI
-Cloud & DevOps: Docker, Docker Compose, Linux, Git/GitHub, CI/CD, AWS,
-  Vercel, n8n, RunPod GPU cloud, Google Colab
-Tools: Jupyter Notebook, VS Code, Linux CLI, Agile Development
-
-ACHIEVEMENTS
-- First Author — IEEE RASSE 2025: published IEEE Xplore
-  DOI: 10.1109/RASSE64831.2025.11315309
-- Offshore deployment (Sep 2026) — deployed Positioning Control and AHC
-  (Automatic Heave Compensation) programs for a rock-dumping barge at
-  TC Offshore Marine Pte. Ltd.
-- PSB Academy "Student Shine on Global Stage" recognition — 2025
-- Ka-Nova JASSS submission targeting August 2026
-- Google Data Analytics Professional Certificate (Coursera/Google)
-- Teaching volunteer: 2 years 10 months — Pan Pyo Thu Charity Group, Mandalay, Myanmar
-  (Mathematics, History, English for underprivileged children)
-- Volunteer Teacher: 3 months — AIESEC Vietnam
-  (Taught autistic children aged 6–17)
-- Organization Manager: 1 year 1 month — Sparks of Hope SOH, Myanmar
-  (Organised youth volunteer programmes for orphan outreach)
-- Students' Union President: 2 years 9 months — iNet College, Mandalay
-
-LANGUAGES
-English (Professional), Burmese (Native)
-`;
-
-const SYSTEM_ASK = `You are Kaung Htet's personal AI portfolio assistant. You have deep knowledge of Kaung's background, projects, skills, and research. Answer questions from recruiters, collaborators, and researchers concisely and honestly. Speak about Kaung in the third person. If asked something not in the knowledge base, say so clearly rather than fabricating. Never make up credentials, scores, or outcomes. Keep answers under 120 words unless technical depth is clearly needed. Tone: precise, scholarly, confident — matching Kaung's own voice.`;
-
-const SYSTEM_MATCHER = `You are an expert technical recruiter AI. You have been given Kaung Htet's complete CV and project portfolio as context. When given a job description, you must output ONLY valid JSON in this exact structure, no preamble, no markdown fences:
-{
-  "score": <integer 0-100>,
-  "verdict": "<one sentence overall fit assessment>",
-  "strengths": ["<match point 1>", "<match point 2>", "<match point 3>"],
-  "gaps": ["<gap or stretch 1>", "<gap or stretch 2>"],
-  "narrative": "<3-4 sentence paragraph written as a senior recruiter recommending or contextualising Kaung for this specific role. Reference specific projects and skills by name. Be honest — if it is a stretch role say so constructively.>"
-}
-Base your analysis ONLY on the knowledge base provided. Do not invent skills or experience Kaung does not have. Output ONLY the JSON object — no surrounding text, no code fences.`;
-
-const SYSTEM_RESEARCH = `You are a research assistant with expert knowledge of Kaung Htet's Ka-Nova project — a hybrid Generative Agent-Based Model (GABM) simulating post-conflict constitutional governance. Answer technical questions from researchers, academics, and engineers. Be precise and technical. Cite specific numbers, architectural decisions, and statistical results where relevant. If a question goes beyond the documented knowledge base, say 'This is beyond the current documentation — Kaung would be best placed to answer this directly.' Never fabricate research findings. Tone: academic, rigorous, collegial.`;
+/* The knowledge base and all three system prompts live server-side in
+ * api/_kb.js. The browser only picks a mode — it cannot supply a system
+ * prompt, which is what stops this endpoint from being usable as a free
+ * general-purpose Claude proxy. */
 
 const STARTERS_ASK = [
   "What makes Kaung different from other data science candidates?",
@@ -2075,11 +1950,11 @@ const STARTERS_RESEARCH = [
 const CHAT_ENDPOINT = "/api/chat";
 
 /* =====================================================================
- * Rate limit tracker — max 15 requests per 60 seconds
+ * Rate limit tracker — max 12 requests per 60 seconds
  * Timestamps stored in localStorage so limit survives page refresh.
  * ===================================================================== */
 const RL_KEY = "chat_requests";
-const RL_MAX = 15;
+const RL_MAX = 12;   // mirrors the server-side limit in api/chat.js
 const RL_WINDOW = 60_000; // 60 seconds in ms
 
 function getRLTimestamps() {
@@ -2143,13 +2018,16 @@ function formatCountdown(ms) {
 }
 
 /* =====================================================================
- * Claude API caller — posts to our own /api/chat proxy, which holds
- * the real Anthropic key server-side.
+ * Assistant caller — posts to our own /api/chat proxy, which holds the
+ * Anthropic key, owns the system prompt and knowledge base, and enforces
+ * the topic scope. We send a mode name and the conversation, nothing else.
+ *
+ * The local rate limiter below is UX only — it keeps the UI honest about
+ * the server's limit instead of waiting for a 429.
  * ===================================================================== */
-async function callClaude(systemPrompt, history, userMessage) {
+async function callAssistant(mode, history, userMessage) {
   const { allowed, waitMs } = checkRateLimit();
   if (!allowed) throw new Error('RATE_LIMIT:' + waitMs);
-  const system = systemPrompt + '\n\n--- KNOWLEDGE BASE ---\n' + KNOWLEDGE_BASE.trim() + '\n--- END ---';
   const messages = [
     ...(history||[]).map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content })),
     { role: 'user', content: userMessage }
@@ -2158,9 +2036,13 @@ async function callClaude(systemPrompt, history, userMessage) {
   const res = await fetch(CHAT_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ system, messages })
+    body: JSON.stringify({ mode, messages })
   });
   const data = await res.json().catch(function(){return {};});
+  if (res.status === 429) {
+    const wait = (data.retryAfter ? data.retryAfter * 1000 : 60000);
+    throw new Error('RATE_LIMIT:' + wait);
+  }
   if (!res.ok) throw new Error(data.error || 'HTTP ' + res.status);
   if (!data.text) throw new Error('Empty response from Claude');
   return data.text.trim();
@@ -2199,8 +2081,7 @@ function ChatPane({ mode, history, setHistory, starters, accent }) {
     setInput('');
     setBusy(true);
     try {
-      const systemPrompt = mode === 'research' ? SYSTEM_RESEARCH : SYSTEM_ASK;
-      const reply = await callClaude(systemPrompt, history, msg);
+      const reply = await callAssistant(mode === 'research' ? 'research' : 'ask', history, msg);
       setHistory([...next, { role: 'assistant', content: reply }]);
     } catch (e) {
       const msg = e.message || String(e);
@@ -2375,7 +2256,7 @@ function MatcherPane() {
     setResult(null);
     setBusy(true);
     try {
-      const text = await callClaude(SYSTEM_MATCHER, [], "Job Description to evaluate:\n\n" + jd.trim());
+      const text = await callAssistant('matcher', [], "Job Description to evaluate:\n\n" + jd.trim());
       let parsed = null;
       try {
         parsed = JSON.parse(text);
@@ -2528,6 +2409,10 @@ function AIPanel({ instanceId, onClose, showHeader = true }) {
           </button>
         ))}
       </div>
+      <div className="ai-scope mono-sm">
+        Scoped assistant — it answers questions about Kaung only. It will not
+        write code or answer general questions.
+      </div>
       <div className="ai-body">
         {mode === 'ask' && (
           <ChatPane
@@ -2604,10 +2489,11 @@ function AILayerSection() {
 
 
 const TAGLINES = [
-  "Data Engineer & Software Developer",
+  "Data Engineer & AI Engineer",
   "Lead Software Developer & AI Engineer",
   "IEEE Published First Author",
   "Industrial Control Systems Developer",
+  "LLM & Multi-Agent Systems Builder",
   "MSc Data Science Candidate",
 ];
 
@@ -2995,7 +2881,7 @@ function About() {
     ["1.5M", "Agent-Years Simulated", "agent_years = 1_500_000"],
     [300, "Monte Carlo Runs", "runs = 300"],
     [195, "Countries Analysed", "dataset.shape = (195, 63)"],
-    ["2026", "JASSS Target", "target = JASSS_2026"],
+    ["0.95", "Hold-Out AUC", "roc_auc = 0.949"],
   ];
   return (
     <section className="section" id="about">
@@ -3016,14 +2902,19 @@ function About() {
                 I'm a Singapore-based data and software engineer. Most days I'm writing
                 the C# control software and data layer behind offshore vessel positioning
                 systems as Lead Software Developer &amp; AI Engineer at Tiancheng Electrical
-                Marine Equipment. Alongside that, I'm finishing an MSc in Data Science and
-                publishing research on agent-based governance modelling — IEEE Xplore, 2025.
+                Marine Equipment — and leading the AI work that turns the company's
+                engineering drawings into queryable data. Alongside that, I'm finishing an
+                MSc in Data Science and publishing research on agent-based governance
+                modelling — IEEE Xplore, 2025.
               </p>
               <p>
-                My current research, <em>Ka-Nova</em>, simulates how digital trust
-                infrastructure reshapes corruption and credit access for SMEs in
-                fragile economies — supervised by Dr. Md Saifullah Bin Razali and
-                targeting publication in JASSS 2026.
+                My current research, <em>Ka-Nova</em>, is a hybrid generative
+                agent-based model that stress-tests two constitutional frameworks
+                over fifty simulated years — 11,000 rule-based citizen agents,
+                seven LLM elite decision-makers per scenario, and a validation
+                layer that gates every model decision before it enters the
+                simulation. Co-authored with Dr. Md Saifullah Bin Razali,
+                targeting IEEE Access in late 2026.
               </p>
               <p className="pull">
                 "I treat a model the way I treat a control system — every assumption
@@ -3059,22 +2950,28 @@ function Timeline() {
       date: "2026 — Present",
       role: "MSc Data Science",
       org: "University of Hertfordshire · PSB Academy Singapore",
-      desc: "Postgraduate research programme focused on advanced machine learning, statistical inference, and computational social science — with the Ka-Nova GABM as the cornerstone thesis project.",
+      desc: "Postgraduate research in advanced machine learning, statistical inference, and computational social science — with the Ka-Nova GABM as the dissertation project. Top module results: Fundamentals of Data Science 91, Data Mining & Discovery 84.",
       active: true,
     },
     {
       date: "Apr 2026 — Present",
       role: "Ka-Nova Research Project",
       org: "University of Hertfordshire",
-      desc: "Generative Agent-Based Model of digital-trust infrastructure for SME credit access. Built on Mesa + LangChain + Llama 3.2 with 300 Monte Carlo runs across 1.5M simulated agent-years.",
+      desc: "Hybrid Generative Agent-Based Model comparing two constitutional frameworks across 50 simulated years. Mesa + LangChain + Llama 3.2 on GPU cloud: 300 Monte Carlo runs, 1.5M simulated agent-years, results differentiated at p < 0.001.",
       active: true,
     },
     {
       date: "Aug 2026 — Present",
-      role: "Full Stack AI Engineer",
-      org: "TC Offshore Marine Pte. Ltd.",
-      desc: "Offshore contract deploying Positioning Control and AHC (Automatic Heave Compensation) programs for a rock-dumping barge, shipping continuous builds on-site against the customer's live, changing requirements.",
+      role: "Lead Software Developer & AI Engineer",
+      org: "Tiancheng Electrical Marine Equipment Pte. Ltd.",
+      desc: "Own the C#/.NET control software for vessel positioning and automatic heave compensation on Siemens S7 PLCs, the SQLite/InfluxDB/Grafana data layer behind it, and the Python CAD pipeline turning DXF/DWG drawings into structured JSON. Technical lead on an 8-month AI document-intelligence programme; lead and coordinate junior developers.",
       active: true,
+    },
+    {
+      date: "Sep 2026",
+      role: "Offshore Deployment — Positioning Control & AHC",
+      org: "TC Offshore Marine Pte. Ltd.",
+      desc: "Deployed Positioning Control and Automatic Heave Compensation software onto a live rock-dumping barge, shipping continuous on-site builds against the customer's changing requirements.",
     },
     {
       date: "2024 — 2025",
@@ -3149,10 +3046,10 @@ function Timeline() {
 /* ============== PROJECTS ============== */
 function KaNovaCard() {
   const cells = [
-    ["0.189", "Corruption (Full MFU)"],
-    ["0.000", "Coup Probability (MFU)"],
-    ["0.933", "Corruption (Military)"],
-    ["0.600", "Coup Probability (Military)"],
+    ["0.189", "Corruption · Scenario A"],
+    ["0.000", "Coup Probability · A"],
+    ["0.933", "Corruption · Scenario C"],
+    ["0.600", "Coup Probability · C"],
   ];
   const stack = ["Mesa", "LangChain", "Llama 3.2", "Python", "RunPod"];
   return (
@@ -3163,20 +3060,23 @@ function KaNovaCard() {
           <div className="proj-tag">MSc Research · Ongoing</div>
           <h3 className="proj-name">Ka-Nova GABM</h3>
           <p className="proj-desc">
-            A Generative Agent-Based Model simulating how digital trust
-            infrastructure reshapes corruption and SME credit access in
-            fragile economies. Mesa orchestrates a heterogeneous population
-            of LangChain-driven Llama 3.2 agents through Monte Carlo policy
-            regimes — Military, Hybrid, and Full MFU futures — calibrated
-            against real Myanmar macroeconomic and governance indicators.
+            A hybrid Generative Agent-Based Model that stress-tests two
+            constitutional frameworks over 50 simulated years: a designed
+            post-conflict constitution against the 2008 military baseline.
+            11,000 rule-based Mesa citizens across 56 ethnic-archetype
+            profiles, 7 LLM elite decision agents per scenario on Llama 3.2,
+            and a 17-vector external world with 10 stochastic shock types.
+            Same engine, same shocks — the only variable is constitutional
+            design. Every LLM decision passes a 4-layer validation pipeline
+            (CVES) before it enters the simulation.
           </p>
           <div className="built-with">
-            <div className="bw-tier"><span className="bw-label">Core Model</span><div className="bw-pills"><span className="bw-pill">Mesa 2.3.0</span><span className="bw-pill">LangChain</span><span className="bw-pill">Llama 3.2</span></div></div>
+            <div className="bw-tier"><span className="bw-label">Core Model</span><div className="bw-pills"><span className="bw-pill">Mesa 2.3.0</span><span className="bw-pill">LangChain</span><span className="bw-pill">Ollama · Llama 3.2</span><span className="bw-pill">NumPy</span></div></div>
             <div className="bw-tier"><span className="bw-label">Infrastructure</span><div className="bw-pills"><span className="bw-pill">RunPod RTX 4090</span><span className="bw-pill">Docker</span><span className="bw-pill">Python</span></div></div>
             <div className="bw-tier"><span className="bw-label">Validation</span><div className="bw-pills"><span className="bw-pill">Mann-Whitney U</span><span className="bw-pill">Cohen d</span><span className="bw-pill">SALib</span></div></div>
           </div>
           <div className="proj-result" style={{marginTop: '12px'}}>
-            Supervisor: Dr. Md Saifullah Bin Razali · 300 Monte Carlo runs · 1.5M agent-years · p &lt; 0.001
+            Co-author: Dr. Md Saifullah Bin Razali · 300 Monte Carlo runs · 1.5M agent-years · p &lt; 0.001 · Cohen's d ≥ 1.21
           </div>
         </div>
         <div className="hero-card-right">
@@ -3188,7 +3088,7 @@ function KaNovaCard() {
           ))}
         </div>
       </div>
-      <div className="ka-banner">Targeting JASSS 2026 — Computational Governance Simulation</div>
+      <div className="ka-banner">Paper 1 targeting IEEE Access, Oct 2026 — Hybrid GABM Architecture &amp; Constitutional Encoding</div>
       <div className="ka-embed-wrap">
         <div className="ka-embed-label mono-sm">Live Simulation — Ka-Nova Phase 2</div>
         <div className="ka-embed-frame">
@@ -3256,6 +3156,49 @@ function Projects() {
       github: "https://github.com/KaungOrYours/sme-analytics-platform",
     },
 
+    {
+      n: "04",
+      tag: "Production · Current Role",
+      name: "CAD Document Intelligence",
+      impact: "0.72%",
+      impactLabel: "Round-Trip Entity Loss (4 of 555)",
+      desc: "Engineering-document platform for a marine equipment manufacturer: DXF/DWG drawings parsed into a normalised JSON schema, then back out again without losing geometry. Automated labelling links BOM balloons, leaders and parts tables into structured component records, replacing manual annotation across pilot drawing sets.",
+      tiers: [
+        { label: "Core Pipeline", tools: ["Python", "ezdxf", "ACadSharp", "pytest"] },
+        { label: "Interface & Data", tools: ["PySide6", "SQLite", "JSON Schema"] },
+        { label: "Environment", tools: ["MCP Server", "Multi-Agent", "On-Premise"] },
+      ],
+      result: "Technical lead · 8-month Phase 1 programme · 3 pilot product lines · 1,200+ validated component records",
+    },
+
+    {
+      n: "05",
+      tag: "NLP · Recommender",
+      name: "Recipe & Wine Pairing Engine",
+      impact: "831K",
+      impactLabel: "Recipes · 1.13M User Interactions",
+      desc: "Content-based recommender over 831,000 merged recipes — fuzzy de-duplicated to 398,000 — matching free-text prompts to dishes by TF-IDF cosine similarity. Includes a 35,000-row wine-and-food pairing join and a restaurant-menu matching module, with serialised model artefacts for sub-second inference.",
+      tiers: [
+        { label: "Model", tools: ["TF-IDF", "Cosine Similarity", "scikit-learn"] },
+        { label: "Data Layer", tools: ["pandas", "Fuzzy Dedup", "joblib"] },
+        { label: "Exploration", tools: ["Orange", "Jupyter"] },
+      ],
+      result: "13-notebook pipeline · multi-source harmonisation, de-duplication reporting, menu matching",
+    },
+
+    {
+      n: "06",
+      tag: "Full Stack · Dockerised",
+      name: "PDF → EPUB Platform",
+      desc: "Document conversion service that auto-detects digital versus scanned PDFs, runs multilingual OCR (English, Burmese, Chinese), applies heuristic heading detection to build a real table of contents, and emits clean styled EPUB. Async job API with live progress polling and automatic temp-file expiry, shipped as a single docker compose up.",
+      tiers: [
+        { label: "Backend", tools: ["FastAPI", "PyMuPDF", "ebooklib"] },
+        { label: "OCR", tools: ["Tesseract", "Multilingual"] },
+        { label: "Delivery", tools: ["Docker Compose", "REST API"] },
+      ],
+      result: "Submit → poll → download job pipeline · 200+ page scans supported",
+    },
+
   ];
   return (
     <section className="section" id="projects">
@@ -3316,14 +3259,16 @@ function Projects() {
 /* ============== SKILLS ============== */
 function Skills() {
   const groups = [
-    { title: "Languages & Frameworks", items: ["Python", "C#", "SQL", "JavaScript", "FastAPI", "Flask"] },
-    { title: "Industrial & Control Systems", items: ["Siemens S7-1500 PLC (S7netplus)", "Modbus RTU", ".NET / WinForms", "PySide6", "DXF/DWG (ezdxf, ACadSharp)"] },
-    { title: "Data Engineering", items: ["ETL Pipelines", "Databricks", "AWS Glue", "InfluxDB", "SQLite", "pandas / NumPy"] },
-    { title: "Machine Learning", items: ["scikit-learn", "PyTorch", "XGBoost", "Random Forest", "SHAP"] },
-    { title: "Agent-Based Modelling", items: ["Mesa", "Monte Carlo", "Policy Regimes", "Calibration", "Sensitivity Analysis"] },
-    { title: "NLP & Generative AI", items: ["LangChain", "Llama 3.2", "Embeddings", "Prompt Engineering", "Fine-tuning (JSONL)"] },
-    { title: "BI & Visualisation", items: ["Power BI", "Tableau", "Grafana", "Matplotlib", "Plotly"] },
-    { title: "Cloud & DevOps", items: ["Docker", "AWS", "RunPod", "n8n", "Git / GitHub", "CI / CD"] },
+    { title: "Languages & Frameworks", items: ["Python", "C#", "SQL", "JavaScript", "Bash", "FastAPI", "Flask", ".NET"] },
+    { title: "Data Engineering", items: ["ETL / ELT", "Data Pipelines", "Data Modelling", "Databricks", "AWS Glue", "InfluxDB", "SQLite", "pandas / NumPy", "Time-Series"] },
+    { title: "Machine Learning", items: ["scikit-learn", "PyTorch", "XGBoost", "CatBoost", "Random Forest", "Ensembles", "SHAP", "Cross-Validation"] },
+    { title: "LLM & Generative AI", items: ["LangChain", "Ollama / Llama 3.2", "Claude API", "Model Context Protocol (MCP)", "Multi-Agent Orchestration", "RAG", "Prompt Engineering", "Output Guardrails"] },
+    { title: "NLP & Recommenders", items: ["TF-IDF", "Cosine Similarity", "Embeddings", "Semantic Search", "Text Classification", "OCR (Tesseract)"] },
+    { title: "Agent-Based Modelling", items: ["Mesa", "Monte Carlo", "Policy Regimes", "Calibration", "Sensitivity Analysis (SALib)"] },
+    { title: "Industrial & Engineering Data", items: ["Siemens S7-1500 PLC (S7netplus)", "Modbus RTU", "Dynamic Positioning", "Heave Compensation", "WinForms", "PySide6", "DXF/DWG (ezdxf, ACadSharp)"] },
+    { title: "BI & Visualisation", items: ["Power BI", "Tableau", "Grafana", "Matplotlib", "Seaborn", "D3.js", "Three.js"] },
+    { title: "Cloud & DevOps", items: ["Docker", "Docker Compose", "AWS (EC2, Glue)", "Vercel", "RunPod", "Linux", "n8n", "Git / GitHub", "CI / CD"] },
+    { title: "Statistics", items: ["Mann-Whitney U", "Kruskal-Wallis", "Cohen's d", "Bootstrap CI", "Sobol Analysis"] },
   ];
   return (
     <section className="section" id="skills">
@@ -3370,7 +3315,7 @@ function Contact() {
     { ic: "☏", top: "Phone", val: "+65 9342 0524", href: "tel:+6593420524" },
     { ic: "in", top: "LinkedIn", val: "linkedin.com/in/kaung-htet-benjamin", href: "https://linkedin.com/in/kaung-htet-benjamin" },
     { ic: "gh", top: "GitHub", val: "github.com/KaungOrYours", href: "https://github.com/KaungOrYours" },
-    { ic: "↓", top: "Curriculum Vitae", val: "Download CV — Kaung Htet 2026", href: "./assets/Kaung_Htet_CV_2026.pdf" },
+    { ic: "↓", top: "Curriculum Vitae", val: "Download CV — Kaung Htet 2026", href: asset("./assets/Kaung_Htet_CV_2026.pdf"), file: "Kaung_Htet_CV_2026.pdf" },
   ];
   return (
     <section className="section" id="contact">
@@ -3394,7 +3339,7 @@ function Contact() {
             </p>
             <div className="contact-links">
               {links.map((l) => (
-                <a className="contact-link" key={l.top} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener" download={l.ic === '↓' ? true : undefined}>
+                <a className="contact-link" key={l.top} href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener" download={l.file || undefined}>
                   <span className="contact-icon">{l.ic}</span>
                   <span className="contact-text">
                     <span className="top">{l.top}</span>
