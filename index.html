@@ -3126,6 +3126,24 @@ function Projects() {
   const rest = [
     {
       n: "02",
+      tag: "Live Platform · Public Good",
+      name: "Passport Renewal Monitoring",
+      impact: "3,000+",
+      impactLabel: "Clicks in 24 Hours — One Facebook Post",
+      desc: "Free community tool for Myanmar citizens in Singapore: watches the Embassy's approval-list PDF and a Telegram channel's renewal-appointment posts, OCRs and fuzzy-matches them against a public watchlist, and pings each person on Telegram the moment their name appears — no manual checking, no login required to sign up. Admin dashboard is Passkey-only, no passwords anywhere.",
+      tiers: [
+        { label: "Pipeline", tools: ["Python", "Tesseract OCR", "Telethon", "RapidFuzz"] },
+        { label: "Backend", tools: ["FastAPI", "Neon Postgres", "WebAuthn/Passkey"] },
+        { label: "Frontend", tools: ["React", "Vite", "Tailwind", "EN/MY i18n"] },
+        { label: "Infrastructure", tools: ["GitHub Actions", "Render", "Vercel", "Neon"] },
+      ],
+      result: "200 Facebook shares · 3,000+ clicks · 100+ signed-up users — all within 24 hours of one Facebook post",
+      embed: "https://mmr-passport-renewal-monitoring.vercel.app/",
+      github: "https://github.com/KaungOrYours/MMR_PassportRenewal_Monitoring",
+    },
+
+    {
+      n: "03",
       tag: "IEEE Published · 2025",
       name: "Conflict Risk Forecasting",
       impact: "195",
@@ -3142,7 +3160,7 @@ function Projects() {
     },
 
     {
-      n: "03",
+      n: "04",
       tag: "Live Platform",
       name: "SME Analytics Platform",
       desc: "Dockerised AutoML stack for small businesses — sales forecasting, churn analysis, and dashboarding without an in-house data team. Deployed live on Vercel.",
@@ -3157,7 +3175,7 @@ function Projects() {
     },
 
     {
-      n: "04",
+      n: "05",
       tag: "Production · Current Role",
       name: "CAD Document Intelligence",
       impact: "0.72%",
@@ -3172,7 +3190,7 @@ function Projects() {
     },
 
     {
-      n: "05",
+      n: "06",
       tag: "NLP · Recommender",
       name: "Recipe & Wine Pairing Engine",
       impact: "831K",
@@ -3187,7 +3205,7 @@ function Projects() {
     },
 
     {
-      n: "06",
+      n: "07",
       tag: "Full Stack · Dockerised",
       name: "PDF → EPUB Platform",
       desc: "Document conversion service that auto-detects digital versus scanned PDFs, runs multilingual OCR (English, Burmese, Chinese), applies heuristic heading detection to build a real table of contents, and emits clean styled EPUB. Async job API with live progress polling and automatic temp-file expiry, shipped as a single docker compose up.",

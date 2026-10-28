@@ -106,7 +106,7 @@ const TASK_REQUEST = [
 ];
 
 // Anything in here means the message is plausibly about Kaung or his work.
-const IN_SCOPE_REF = /\b(kaung|benjamin|he|his|him|himself|candidate|this person|portfolio|cv|r[eé]sum[eé]|ka-?nova|gabm|mfu|ieee|rasse|jasss|tiancheng|psb|hertfordshire|coventry|khine|pdf2epub|epub|recommender|sme analytics|conflict risk|dissertation|thesis|publication|supervisor|mesa|cves|monte carlo)\b/i;
+const IN_SCOPE_REF = /\b(kaung|benjamin|he|his|him|himself|candidate|this person|portfolio|cv|r[eé]sum[eé]|ka-?nova|gabm|mfu|ieee|rasse|jasss|tiancheng|psb|hertfordshire|coventry|khine|pdf2epub|epub|recommender|sme analytics|conflict risk|dissertation|thesis|publication|supervisor|mesa|cves|monte carlo|passport|mmr.?passport|myanmar embassy|telegram bot|webauthn|passkey)\b/i;
 
 function preFilterRefuses(text) {
   if (INJECTION.some(re => re.test(text))) return true;

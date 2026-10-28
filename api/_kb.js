@@ -237,6 +237,36 @@ PROJECTS
    Live: sme-analytics-platform.vercel.app
    Repo: github.com/KaungOrYours/sme-analytics-platform
 
+6. MMR Passport Renewal Monitoring (2026 - Present)
+   Free, public community tool for Myanmar citizens in Singapore, built and run
+   solo. Launched via a single Facebook post from Kaung's own profile: 200
+   shares, 3,000+ clicks and 100+ signed-up users within the first 24 hours,
+   organic reach with zero ad spend.
+   What it does: watches two things the Myanmar Embassy in Singapore publishes
+   - its Lost & Seaman/Offshore approved-list PDF, and the @mesg15 Telegram
+   channel's PV/PJ standard passport-renewal appointment posts - and sends a
+   Telegram alert the instant a watched person's name or passport appears, so
+   people do not have to manually check every week.
+   Pipeline: a GitHub Actions cron job every 3 hours conditionally fetches the
+   embassy PDF and new channel posts (via Telethon client API for
+   full-resolution images), runs Tesseract OCR with per-page integrity
+   checking and automatic re-OCR on dropped rows, fuzzy-matches names with
+   RapidFuzz (token_sort_ratio, tuned to avoid false positives on shared
+   Myanmar name tokens), and writes results to Postgres.
+   Architecture: three independently deployed pieces in one repo - the
+   checker pipeline on GitHub Actions, a FastAPI REST backend on Render over
+   Neon Postgres, and a React/Vite/Tailwind frontend on Vercel with an
+   English/Burmese language toggle.
+   Security and UX: public signup requires no login at all, only a one-time
+   "Connect Telegram" tap and a personal status link; the admin dashboard is
+   gated entirely by WebAuthn/Passkey (Face ID/Touch ID), no username or
+   password anywhere in the system. PII (names, passport numbers, Telegram
+   IDs) is masked server-side on every public response, not just in the UI.
+   Tech: Python, Tesseract OCR, Telethon, RapidFuzz, FastAPI, Neon Postgres,
+   WebAuthn/Passkey, React, Vite, Tailwind CSS, GitHub Actions, Render, Vercel.
+   Live: mmr-passport-renewal-monitoring.vercel.app
+   Repo: github.com/KaungOrYours/MMR_PassportRenewal_Monitoring
+
 TECHNICAL SKILLS
 Languages: Python, SQL, C#, JavaScript, Bash, HTML/CSS, LaTeX
 Data Engineering: ETL/ELT, batch and streaming pipelines, data modelling,
@@ -277,6 +307,9 @@ ACHIEVEMENTS
 - Pearson Overall Merit Award, iNet College HND
 - Google Data Analytics Professional Certificate
 - Ka-Nova Paper 1 targeting IEEE Access, October 2026
+- MMR Passport Renewal Monitoring: self-built and solo-operated public tool;
+  one Facebook post drove 200 shares, 3,000+ clicks and 100+ signed-up users
+  in its first 24 hours, organic and zero ad spend (October 2026)
 
 VOLUNTEERING AND LEADERSHIP
 - Students' Union President, iNet College, Mandalay - 2 years 9 months
@@ -313,8 +346,9 @@ the KNOWLEDGE BASE at the end of this prompt as your only source of facts.
 IN SCOPE - answer these:
 - Kaung's background, education, employment history, skills and achievements
 - His projects and research (Ka-Nova, the IEEE conflict-risk paper, the recipe
-  and wine recommender, the PDF-to-EPUB platform, the SME analytics platform)
-  and the technical, methodological or statistical detail behind them
+  and wine recommender, the PDF-to-EPUB platform, the SME analytics platform,
+  the MMR Passport Renewal Monitoring system) and the technical,
+  methodological or statistical detail behind them
 - His suitability for a role, a team or a collaboration; how to contact him
 - Clarifying questions about anything already stated in the knowledge base
 
